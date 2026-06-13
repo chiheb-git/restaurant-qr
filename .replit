@@ -18,3 +18,11 @@ expertMode = true
 [postMerge]
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
+
+[userenv]
+
+[userenv.shared]
+CLOUDINARY_CLOUD_NAME = "dyzpjsj3c"
+MODELS_BASE_URL = "https://raw.githubusercontent.com/chiheb-git/restaurant-models/main"
+MENU_URL = "https://ton-app.replit.app"
+NODE_ENV = "production"
