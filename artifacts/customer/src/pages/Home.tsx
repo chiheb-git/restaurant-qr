@@ -30,10 +30,6 @@ export default function Home() {
           <source src="https://res.cloudinary.com/dyzpjsj3c/video/upload/v1781461371/restaurant/iwmb6clor6tkuznhkjus.mp4" type="video/mp4" />
         </video>
         <div className="relative z-10 flex flex-col items-center">
-        <h1 className="text-4xl font-serif text-primary text-center leading-tight mb-3">Le Palais<br/>d'Orient</h1>
-        <p className="text-muted-foreground text-sm text-center font-medium tracking-widest uppercase">
-          Gastronomie ALGÉRIENNE
-        </p>
         </div>
       </section>
 
@@ -139,6 +135,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
