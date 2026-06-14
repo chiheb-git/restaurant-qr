@@ -34,8 +34,9 @@ export default function Home() {
       </section>
 
       {/* Categories */}
-      <div className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b border-border py-3">
-        <div className="flex overflow-x-auto hide-scrollbar px-4 gap-2 no-scrollbar">
+      <div className="sticky top-0 z-40 backdrop-blur-xl border-b border-white/5 py-4" style={{background:"rgba(10,10,10,0.85)"}}>
+        <div className="flex overflow-x-auto px-4 gap-3 no-scrollbar" style={{scrollbarWidth:"none"}}>
+
           <button
             onClick={() => setActiveCategory(null)}
             className={cn(
@@ -135,6 +136,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
