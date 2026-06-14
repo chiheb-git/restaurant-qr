@@ -1,4 +1,4 @@
-import { Link, useLocation } from "wouter";
+﻿import { Link, useLocation } from "wouter";
 import { LayoutDashboard, List, UtensilsCrossed, QrCode, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -77,6 +77,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <main className="md:ml-64 min-h-screen pt-16 md:pt-0 pb-8 px-4 md:px-8 max-w-7xl mx-auto">
         {children}
       </main>
+      <footer className="md:ml-64 border-t border-border py-4 px-8 flex items-center justify-center">
+        <p className="text-xs text-muted-foreground tracking-widest uppercase">
+          Developed by <span className="text-primary/70 font-semibold">Meghraoui Chiheb</span>
+        </p>
+      </footer>
     </div>
   );
 }
