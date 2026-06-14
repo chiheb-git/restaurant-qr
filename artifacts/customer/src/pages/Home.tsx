@@ -1,25 +1,23 @@
-﻿import { useState } from "react";
-import { Link } from "wouter";
-import { useListCategories, useListDishes } from "@workspace/api-client-react";
-import { formatPrice, cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from 'react';
+import { Link } from 'wouter';
+import { useListCategories, useListDishes } from '@workspace/api-client-react';
+import { formatPrice, cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
-
   const { data: categoriesRaw, isLoading: isLoadingCategories } = useListCategories();
-  
   const { data: dishesRaw, isLoading: isLoadingDishes } = useListDishes(
     activeCategory ? { category_id: activeCategory } : {}
   );
 
   const getFallbackImage = (categoryId?: number | null) => {
-    if (!categoryId) return "/placeholder-pizza.png";
+    if (!categoryId) return '/placeholder-pizza.png';
     const mod = categoryId % 4;
-    if (mod === 0) return "/placeholder-pizza.png";
-    if (mod === 1) return "/placeholder-sandwich.png";
-    if (mod === 2) return "/placeholder-boisson.png";
-    return "/placeholder-dessert.png";
+    if (mod === 0) return '/placeholder-pizza.png';
+    if (mod === 1) return '/placeholder-sandwich.png';
+    if (mod === 2) return '/placeholder-boisson.png';
+    return '/placeholder-dessert.png';
   };
 
   return (
@@ -29,26 +27,22 @@ export default function Home() {
         <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0" style={{filter:"brightness(0.35)"}}>
           <source src="https://res.cloudinary.com/dyzpjsj3c/video/upload/v1781461371/restaurant/iwmb6clor6tkuznhkjus.mp4" type="video/mp4" />
         </video>
-        <div className="relative z-10 flex flex-col items-center">
-        </div>
+        <div className="relative z-10 flex flex-col items-center"></div>
       </section>
-
       {/* Categories */}
       <div className="sticky top-0 z-40 backdrop-blur-xl border-b border-white/5 py-4" style={{background:"rgba(10,10,10,0.85)"}}>
         <div className="flex overflow-x-auto px-4 gap-3 no-scrollbar" style={{scrollbarWidth:"none"}}>
-
           <button
             onClick={() => setActiveCategory(null)}
             className={cn(
               "px-5 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all tap-effect",
-              activeCategory === null 
-                ? "bg-primary text-primary-foreground" 
+              activeCategory === null
+                ? "bg-primary text-primary-foreground"
                 : "bg-card text-foreground border border-border"
             )}
           >
             Tous
           </button>
-          
           {isLoadingCategories ? (
             Array.from({ length: 4 }).map((_, i) => (
               <Skeleton key={i} className="h-9 w-24 rounded-full flex-shrink-0" />
@@ -60,8 +54,8 @@ export default function Home() {
                 onClick={() => setActiveCategory(cat.id)}
                 className={cn(
                   "px-5 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all tap-effect",
-                  activeCategory === cat.id 
-                    ? "bg-primary text-primary-foreground" 
+                  activeCategory === cat.id
+                    ? "bg-primary text-primary-foreground"
                     : "bg-card text-foreground border border-border"
                 )}
               >
@@ -71,8 +65,7 @@ export default function Home() {
           )}
         </div>
       </div>
-
-      {/* dishesRaw List */}
+      {/* Dishes List */}
       <div className="flex flex-col gap-6 px-4 py-6">
         {isLoadingDishes ? (
           Array.from({ length: 3 }).map((_, i) => (
@@ -93,8 +86,8 @@ export default function Home() {
           (Array.isArray(dishesRaw) ? dishesRaw : dishesRaw?.data ?? []).map((dish) => (
             <Link key={dish.id} href={`/dish/${dish.id}`} className="group tap-effect block">
               <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-card" style={{boxShadow:"0 8px 32px rgba(0,0,0,0.4)"}}>
-                <img 
-                  src={dish.imageUrl || getFallbackImage(dish.categoryId)} 
+                <img
+                  src={dish.imageUrl || getFallbackImage(dish.categoryId)}
                   alt={dish.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   loading="lazy"
@@ -114,9 +107,7 @@ export default function Home() {
                 </div>
                 {!dish.isAvailable && (
                   <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
-                    <span className="bg-card px-4 py-2 rounded-full text-sm font-medium border border-border">
-                      أ‰puisأ©
-                    </span>
+                    <span className="bg-card px-4 py-2 rounded-full text-sm font-medium border border-border">Épuisé</span>
                   </div>
                 )}
                 {dish.modelGlbUrl && dish.isAvailable && (
@@ -133,15 +124,12 @@ export default function Home() {
           ))
         )}
       </div>
+      {/* Footer */}
+      <div style={{textAlign:"center",padding:"24px 0 32px",borderTop:"1px solid rgba(255,255,255,0.05)",marginTop:"16px"}}>
+        <p style={{fontSize:"11px",color:"rgba(255,255,255,0.25)",letterSpacing:"0.15em",textTransform:"uppercase",fontFamily:"Inter, sans-serif"}}>
+          Developed by <span style={{color:"rgba(201,168,76,0.6)",fontWeight:600}}>Meghraoui Chiheb</span>
+        </p>
+      </div>
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
