@@ -99,6 +99,19 @@ export default function Home() {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   loading="lazy"
                 />
+                <div className="absolute inset-0" style={{background:"linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)"}} />
+                <div className="absolute bottom-0 left-0 right-0 p-4 flex items-end justify-between">
+                  <div className="flex-1 mr-3">
+                    <h3 className="text-white font-bold text-lg leading-tight mb-1" style={{fontFamily:"serif"}}>{dish.name}</h3>
+                    <p className="text-white/60 text-xs line-clamp-1">{dish.description}</p>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <span className="text-primary font-bold text-base">{formatPrice(dish.price)}</span>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{background:"rgba(201,168,76,0.2)",border:"1px solid rgba(201,168,76,0.5)"}}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </div>
+                  </div>
+                </div>
                 {!dish.isAvailable && (
                   <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
                     <span className="bg-card px-4 py-2 rounded-full text-sm font-medium border border-border">
