@@ -8,6 +8,7 @@ import Home from "@/pages/Home";
 import DishDetail from "@/pages/DishDetail";
 import ARViewer from "@/pages/ARViewer";
 import About from "@/pages/About";
+import ARList from "@/pages/ARList";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,9 @@ function Router() {
       </Route>
       <Route path="/dish/:id">
         <Layout><DishDetail /></Layout>
+      </Route>
+      <Route path="/ar">
+        <Layout><ARList /></Layout>
       </Route>
       <Route path="/ar/:id" component={ARViewer} />
       <Route path="/about">
