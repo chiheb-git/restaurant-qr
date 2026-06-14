@@ -25,11 +25,16 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full min-h-screen pb-6">
       {/* Hero */}
-      <section className="relative w-full pt-16 pb-12 px-6 flex flex-col items-center justify-center bg-card border-b border-border">
+      <section className="relative w-full pt-16 pb-12 px-6 flex flex-col items-center justify-center border-b border-border overflow-hidden">
+        <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0" style={{filter:"brightness(0.35)"}}>
+          <source src="https://res.cloudinary.com/dyzpjsj3c/video/upload/v1781461371/restaurant/iwmb6clor6tkuznhkjus.mp4" type="video/mp4" />
+        </video>
+        <div className="relative z-10 flex flex-col items-center">
         <h1 className="text-4xl font-serif text-primary text-center leading-tight mb-3">Le Palais<br/>d'Orient</h1>
         <p className="text-muted-foreground text-sm text-center font-medium tracking-widest uppercase">
           Gastronomie ALGÉRIENNE
         </p>
+        </div>
       </section>
 
       {/* Categories */}
@@ -134,6 +139,8 @@ export default function Home() {
     </div>
   );
 }
+
+
 
 
 
