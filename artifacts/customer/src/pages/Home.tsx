@@ -124,12 +124,7 @@ export default function Home() {
           ))
         )}
       </div>
-      {/* Footer scroll */}
-      <div style={{textAlign:"center",padding:"20px 0 100px",marginTop:"8px"}}>
-        <p style={{fontSize:"9px",color:"rgba(255,255,255,0.2)",letterSpacing:"0.2em",textTransform:"uppercase",fontFamily:"Inter, sans-serif",margin:0}}>
-          Developed by <span style={{color:"rgba(201,168,76,0.55)",fontWeight:700}}>Meghraoui Chiheb</span>
-        </p>
-      </div>
+
     </div>
   );
 }

@@ -73,6 +73,32 @@ export default function About() {
             </div>
           </div>
         </div>
+
+        {/* Developer Credit */}
+        <div style={{
+          marginTop:"40px",
+          paddingTop:"24px",
+          borderTop:"1px solid rgba(201,168,76,0.12)",
+          textAlign:"center",
+          paddingBottom:"8px"
+        }}>
+          <p style={{
+            fontSize:"9px",
+            color:"rgba(255,255,255,0.18)",
+            letterSpacing:"0.22em",
+            textTransform:"uppercase",
+            fontFamily:"Inter, sans-serif",
+            margin:0
+          }}>
+            Developed by{" "}
+            <span style={{
+              color:"rgba(201,168,76,0.6)",
+              fontWeight:700,
+              letterSpacing:"0.12em"
+            }}>Meghraoui Chiheb</span>
+          </p>
+        </div>
+
       </div>
     </div>
   );
