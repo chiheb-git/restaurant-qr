@@ -53,6 +53,7 @@ export default function DishDetail() {
           src={dish.imageUrl || getFallbackImage(dish.categoryId)} 
           alt={dish.name}
           className="w-full h-full object-cover"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         

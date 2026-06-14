@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { 
   useGetQrCode, 
@@ -25,10 +25,10 @@ export default function QrPage() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetQrCodeQueryKey() });
-          toast.success("QR Code régénéré avec succès");
+          toast.success("QR Code rأ©gأ©nأ©rأ© avec succأ¨s");
         },
         onError: () => {
-          toast.error("Erreur lors de la génération du QR Code");
+          toast.error("Erreur lors de la gأ©nأ©ration du QR Code");
         }
       }
     );
@@ -38,7 +38,8 @@ export default function QrPage() {
     if (!qrCode?.pngBase64) return;
     
     const link = document.createElement('a');
-    link.href = `data:image/png;base64,${qrCode.pngBase64}`;
+    const base64 = qrCode.pngBase64.startsWith("data:") ? qrCode.pngBase64 : `data:image/png;base64,${qrCode.pngBase64}`;
+    link.href = base64;
     link.download = `menu-qr-${new Date().toISOString().split('T')[0]}.png`;
     document.body.appendChild(link);
     link.click();
@@ -57,7 +58,7 @@ export default function QrPage() {
     <div className="py-8 space-y-8 max-w-4xl mx-auto">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">QR Code</h1>
-        <p className="text-muted-foreground mt-1">Gérez le QR code pour vos tables.</p>
+        <p className="text-muted-foreground mt-1">Gأ©rez le QR code pour vos tables.</p>
       </div>
 
       <Card className="overflow-hidden border-2">
@@ -73,7 +74,7 @@ export default function QrPage() {
           ) : qrCode?.pngBase64 ? (
             <div className="relative group p-4 bg-white rounded-2xl shadow-sm border">
               <img 
-                src={`data:image/png;base64,${qrCode.pngBase64}`} 
+                src={qrCode.pngBase64.startsWith("data:") ? qrCode.pngBase64 : `data:image/png;base64,${qrCode.pngBase64}`} 
                 alt="QR Code du Menu" 
                 className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px]"
                 width={400}
@@ -87,7 +88,7 @@ export default function QrPage() {
             </div>
           )}
           
-          {!isLoading && qrCode && (
+          {!isLoading && qrCode?.targetUrl && (
             <div className="mt-8 text-center print:hidden">
               <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">Lien de destination</p>
               <a 
@@ -114,7 +115,7 @@ export default function QrPage() {
             ) : (
               <RefreshCw className="mr-2 h-5 w-5" />
             )}
-            Régénérer le QR
+            Rأ©gأ©nأ©rer le QR
           </Button>
           <Button 
             variant="secondary" 
@@ -124,7 +125,7 @@ export default function QrPage() {
             className="w-full sm:w-auto"
           >
             <Download className="mr-2 h-5 w-5" />
-            Télécharger PNG
+            Tأ©lأ©charger PNG
           </Button>
           <Button 
             size="lg" 
@@ -172,3 +173,6 @@ export default function QrPage() {
     </div>
   );
 }
+
+
+

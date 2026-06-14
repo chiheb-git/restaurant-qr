@@ -1,4 +1,4 @@
-import { useGetStats, useGetQrCode } from "@workspace/api-client-react";
+﻿import { useGetStats, useGetQrCode } from "@workspace/api-client-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UtensilsCrossed, List, Box, QrCode, Plus } from "lucide-react";
 import { Link } from "wouter";
@@ -14,7 +14,7 @@ export default function Dashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Aperçu de votre plateforme de menu QR.</p>
+          <p className="text-muted-foreground mt-1">Aperأ§u de votre plateforme de menu QR.</p>
         </div>
         <div className="flex gap-3">
           <Link href="/dishes">
@@ -47,7 +47,7 @@ export default function Dashboard() {
         
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Catégories</CardTitle>
+            <CardTitle className="text-sm font-medium">Catأ©gories</CardTitle>
             <List className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -61,7 +61,7 @@ export default function Dashboard() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Modèles 3D</CardTitle>
+            <CardTitle className="text-sm font-medium">Modأ¨les 3D</CardTitle>
             <Box className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -85,7 +85,7 @@ export default function Dashboard() {
             ) : qrCode?.pngBase64 ? (
               <div className="space-y-4 text-center">
                 <img 
-                  src={`data:image/png;base64,${qrCode.pngBase64}`} 
+                  src={qrCode.pngBase64?.startsWith("data:") ? qrCode.pngBase64 : `data:image/png;base64,${qrCode.pngBase64}`} 
                   alt="QR Code" 
                   className="w-48 h-48 border rounded-lg p-2 bg-white mx-auto"
                 />
@@ -96,12 +96,12 @@ export default function Dashboard() {
                 <div className="h-48 w-48 border-2 border-dashed rounded-lg flex items-center justify-center mx-auto text-muted-foreground">
                   <QrCode className="h-12 w-12 opacity-50" />
                 </div>
-                <p className="text-sm text-muted-foreground">Aucun QR code généré.</p>
+                <p className="text-sm text-muted-foreground">Aucun QR code gأ©nأ©rأ©.</p>
               </div>
             )}
             <div className="mt-6">
               <Link href="/qr">
-                <Button variant="outline">Gérer le QR Code</Button>
+                <Button variant="outline">Gأ©rer le QR Code</Button>
               </Link>
             </div>
           </CardContent>
@@ -110,3 +110,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

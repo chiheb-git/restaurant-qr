@@ -61,6 +61,17 @@ export default function ARViewer() {
     );
   }
 
+  // compute model src: if model URL is relative or not an absolute http(s), prefix with VITE_MODELS_BASE_URL
+  let modelSrc = dish.modelGlbUrl as string;
+  try {
+    if (!/^https?:\/\//i.test(modelSrc)) {
+      const base = (import.meta.env.VITE_MODELS_BASE_URL as string) || "";
+      if (base) modelSrc = `${base.replace(/\/$/, "")}/${modelSrc.replace(/^\//, "")}`;
+    }
+  } catch (e) {
+    // ignore if env not available
+  }
+
   return (
     <div className="fixed inset-0 bg-black z-[100] flex flex-col">
       {/* Header over AR */}
@@ -76,7 +87,7 @@ export default function ARViewer() {
       {/* AR Viewer */}
       <div className="flex-1 relative w-full h-full">
         <model-viewer
-          src={dish.modelGlbUrl}
+          src={modelSrc}
           ios-src=""
           alt={`Modèle 3D de ${dish.name}`}
           ar

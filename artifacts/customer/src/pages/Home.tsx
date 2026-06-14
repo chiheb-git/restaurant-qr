@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link } from "wouter";
 import { useListCategories, useListDishes } from "@workspace/api-client-react";
 import { formatPrice, cn } from "@/lib/utils";
@@ -7,9 +7,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
-  const { data: categories, isLoading: isLoadingCategories } = useListCategories();
+  const { data: categoriesRaw, isLoading: isLoadingCategories } = useListCategories();
   
-  const { data: dishes, isLoading: isLoadingDishes } = useListDishes(
+  const { data: dishesRaw, isLoading: isLoadingDishes } = useListDishes(
     activeCategory ? { category_id: activeCategory } : {}
   );
 
@@ -28,7 +28,7 @@ export default function Home() {
       <section className="relative w-full pt-16 pb-12 px-6 flex flex-col items-center justify-center bg-card border-b border-border">
         <h1 className="text-4xl font-serif text-primary text-center leading-tight mb-3">Le Palais<br/>d'Orient</h1>
         <p className="text-muted-foreground text-sm text-center font-medium tracking-widest uppercase">
-          Gastronomie Algérienne
+          Gastronomie ALGÉRIENNE
         </p>
       </section>
 
@@ -52,7 +52,7 @@ export default function Home() {
               <Skeleton key={i} className="h-9 w-24 rounded-full flex-shrink-0" />
             ))
           ) : (
-            categories?.map((cat) => (
+            (Array.isArray(categoriesRaw) ? categoriesRaw : categoriesRaw?.data ?? []).map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
@@ -70,7 +70,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Dishes List */}
+      {/* dishesRaw List */}
       <div className="flex flex-col gap-6 px-4 py-6">
         {isLoadingDishes ? (
           Array.from({ length: 3 }).map((_, i) => (
@@ -83,12 +83,12 @@ export default function Home() {
               </div>
             </div>
           ))
-        ) : dishes?.length === 0 ? (
+        ) : (Array.isArray(dishesRaw) ? dishesRaw : dishesRaw?.data ?? []).length === 0 ? (
           <div className="py-12 text-center text-muted-foreground">
             Aucun plat trouvé dans cette catégorie.
           </div>
         ) : (
-          dishes?.map((dish) => (
+          (Array.isArray(dishesRaw) ? dishesRaw : dishesRaw?.data ?? []).map((dish) => (
             <Link key={dish.id} href={`/dish/${dish.id}`} className="flex flex-col group tap-effect">
               <div className="w-full aspect-[16/9] rounded-xl overflow-hidden mb-3 bg-card relative">
                 <img 
@@ -100,7 +100,7 @@ export default function Home() {
                 {!dish.isAvailable && (
                   <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
                     <span className="bg-card px-4 py-2 rounded-full text-sm font-medium border border-border">
-                      Épuisé
+                      أ‰puisأ©
                     </span>
                   </div>
                 )}
@@ -120,7 +120,7 @@ export default function Home() {
                     {dish.name}
                   </h3>
                   <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-                    {dish.description || "Une délicieuse spécialité préparée avec soin."}
+                    {dish.description || "Une dأ©licieuse spأ©cialitأ© prأ©parأ©e avec soin."}
                   </p>
                 </div>
                 <div className="font-semibold text-primary text-right whitespace-nowrap">
@@ -134,3 +134,6 @@ export default function Home() {
     </div>
   );
 }
+
+
+

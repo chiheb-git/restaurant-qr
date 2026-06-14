@@ -418,15 +418,75 @@ export default function DishesPage() {
                   <FormField
                     control={form.control}
                     name="imageUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>URL de l'image (optionnel)</FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://..." {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    render={({ field }) => {
+                      const [uploading, setUploading] = useState(false);
+                      const [preview, setPreview] = useState<string | null>(field.value || null);
+
+                      const handleFile = async (file?: File) => {
+                        if (!file) return;
+                        setUploading(true);
+                        try {
+                          const fd = new FormData();
+                          fd.append("file", file);
+                          const resp = await fetch(`/api/upload`, { method: "POST", body: fd });
+                          const json = await resp.json();
+                          if (resp.ok && json.url) {
+                            field.onChange(json.url);
+                            setPreview(json.url);
+                          } else {
+                            // keep previous value
+                            console.error(json);
+                          }
+                        } catch (err) {
+                          console.error(err);
+                        } finally {
+                          setUploading(false);
+                        }
+                      };
+
+                      return (
+                        <FormItem>
+                          <FormLabel>Image du plat (glisser-déposer ou parcourir)</FormLabel>
+                          <FormControl>
+                            <div
+                              onDragOver={(e) => e.preventDefault()}
+                              onDrop={(e) => {
+                                e.preventDefault();
+                                const f = e.dataTransfer?.files?.[0];
+                                if (f) handleFile(f);
+                              }}
+                              className="border-dashed border-2 border-border rounded-md p-4 flex items-center gap-4"
+                            >
+                              <div className="w-24 h-24 bg-card overflow-hidden rounded-md flex items-center justify-center">
+                                {preview ? (
+                                  <img src={preview} alt="preview" className="w-full h-full object-cover" />
+                                ) : (
+                                  <ImageIcon className="h-8 w-8 text-muted-foreground" />
+                                )}
+                              </div>
+                              <div className="flex-1">
+                                <div className="text-sm text-muted-foreground mb-2">Déposez une image ici ou</div>
+                                <div className="flex items-center gap-2">
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    id="dish-image-input"
+                                    className="hidden"
+                                    onChange={(e) => handleFile(e.target.files?.[0])}
+                                  />
+                                  <label htmlFor="dish-image-input" className="btn cursor-pointer inline-flex items-center px-3 py-2 border rounded-md">
+                                    {uploading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
+                                    Parcourir
+                                  </label>
+                                  <Button variant="ghost" onClick={() => { field.onChange(""); setPreview(null); }}>Supprimer</Button>
+                                </div>
+                                <FormMessage />
+                              </div>
+                            </div>
+                          </FormControl>
+                        </FormItem>
+                      );
+                    }}
                   />
 
                   <FormField
