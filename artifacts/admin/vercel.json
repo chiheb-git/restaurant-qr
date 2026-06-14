@@ -1,1 +1,1 @@
-{"outputDirectory":"dist/public","routes":[{"src":"/assets/(.*)","dest":"/assets/$1"},{"src":"/(.*)\\.js","dest":"/$1.js"},{"src":"/(.*)\\.css","dest":"/$1.css"},{"src":"(.*)","dest":"/index.html"}]}
+{"outputDirectory":"dist/public","rewrites":[{"source":"/assets/(.*)","destination":"/assets/$1"},{"source":"(.*)","destination":"/index.html"}]}
