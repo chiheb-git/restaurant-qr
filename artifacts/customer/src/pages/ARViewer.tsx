@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Link, useParams } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import { useGetDish, getGetDishQueryKey } from "@workspace/api-client-react";
@@ -50,9 +50,9 @@ export default function ARViewer() {
     return (
       <div className="fixed inset-0 bg-background flex flex-col items-center justify-center p-6 text-center z-[100]">
         <div className="w-20 h-20 bg-card rounded-full flex items-center justify-center mb-6">
-          <span className="text-2xl">🍽️</span>
+          <span className="text-2xl">ًںچ½ï¸ڈ</span>
         </div>
-        <h2 className="text-2xl font-serif text-foreground mb-3">Modèle indisponible</h2>
+        <h2 className="text-2xl font-serif text-foreground mb-3">Modأ¨le indisponible</h2>
         <p className="text-muted-foreground mb-8">Ce plat n'a pas encore de vue 3D.</p>
         <Link href={dish ? `/dish/${dish.id}` : "/"} className="bg-card text-foreground px-6 py-3 rounded-full border border-border tap-effect">
           Retour
@@ -89,7 +89,7 @@ export default function ARViewer() {
         <model-viewer
           src={modelSrc}
           ios-src=""
-          alt={`Modèle 3D de ${dish.name}`}
+          alt={`Modأ¨le 3D de ${dish.name}`}
           ar
           ar-modes="webxr scene-viewer quick-look"
           camera-controls
@@ -101,7 +101,7 @@ export default function ARViewer() {
           environment-image="neutral"
           exposure="0.85"
           tone-mapping="commerce"
-          style={{ width: '100%', height: '100%', backgroundColor: '#0F0F0F' }}
+          style={{ width: '100%', height: '100%', backgroundColor: '#1A1A1A' }}
         >
           <button slot="ar-button" className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-accent text-primary-foreground px-8 py-4 rounded-full font-bold text-lg shadow-xl tap-effect whitespace-nowrap z-50">
             Placer sur ma table
@@ -111,3 +111,4 @@ export default function ARViewer() {
     </div>
   );
 }
+
