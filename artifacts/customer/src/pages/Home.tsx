@@ -124,31 +124,10 @@ export default function Home() {
           ))
         )}
       </div>
-      {/* Footer Fixed */}
-      <div style={{
-        position:"fixed",
-        bottom:0,
-        left:0,
-        right:0,
-        zIndex:9999,
-        textAlign:"center",
-        padding:"6px 0 8px",
-        background:"rgba(8,8,8,0.92)",
-        borderTop:"1px solid rgba(201,168,76,0.15)"
-      }}>
-        <p style={{
-          fontSize:"10px",
-          color:"rgba(255,255,255,0.35)",
-          letterSpacing:"0.2em",
-          textTransform:"uppercase",
-          fontFamily:"Inter, sans-serif",
-          margin:0
-        }}>
-          Developed by{" "}
-          <span style={{
-            color:"rgba(201,168,76,0.75)",
-            fontWeight:700
-          }}>Meghraoui Chiheb</span>
+      {/* Footer scroll */}
+      <div style={{textAlign:"center",padding:"20px 0 100px",marginTop:"8px"}}>
+        <p style={{fontSize:"9px",color:"rgba(255,255,255,0.2)",letterSpacing:"0.2em",textTransform:"uppercase",fontFamily:"Inter, sans-serif",margin:0}}>
+          Developed by <span style={{color:"rgba(201,168,76,0.55)",fontWeight:700}}>Meghraoui Chiheb</span>
         </p>
       </div>
     </div>
