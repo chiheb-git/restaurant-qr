@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div className="min-h-[100dvh] flex flex-col bg-background text-foreground pb-20 page-transition">
+    <div className="min-h-[100dvh] flex flex-col bg-background text-foreground pb-20">
       <main className="flex-1 w-full max-w-md mx-auto relative">
         {children}
       </main>
