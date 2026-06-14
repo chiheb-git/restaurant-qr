@@ -124,10 +124,34 @@ export default function Home() {
           ))
         )}
       </div>
-      {/* Footer */}
-      <div style={{textAlign:"center",padding:"24px 0 32px",borderTop:"1px solid rgba(255,255,255,0.05)",marginTop:"16px"}}>
-        <p style={{fontSize:"11px",color:"rgba(255,255,255,0.25)",letterSpacing:"0.15em",textTransform:"uppercase",fontFamily:"Inter, sans-serif"}}>
-          Developed by <span style={{color:"rgba(201,168,76,0.6)",fontWeight:600}}>Meghraoui Chiheb</span>
+      {/* Footer Fixed */}
+      <div style={{
+        position:"fixed",
+        bottom:0,
+        left:0,
+        right:0,
+        zIndex:50,
+        textAlign:"center",
+        padding:"8px 0 10px",
+        background:"linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%)",
+        backdropFilter:"blur(6px)",
+        WebkitBackdropFilter:"blur(6px)",
+        pointerEvents:"none"
+      }}>
+        <p style={{
+          fontSize:"10px",
+          color:"rgba(255,255,255,0.2)",
+          letterSpacing:"0.18em",
+          textTransform:"uppercase",
+          fontFamily:"Inter, sans-serif",
+          margin:0
+        }}>
+          Developed by{" "}
+          <span style={{
+            color:"rgba(201,168,76,0.5)",
+            fontWeight:700,
+            letterSpacing:"0.1em"
+          }}>Meghraoui Chiheb</span>
         </p>
       </div>
     </div>
