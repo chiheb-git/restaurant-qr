@@ -91,12 +91,12 @@ export default function Home() {
           </div>
         ) : (
           (Array.isArray(dishesRaw) ? dishesRaw : dishesRaw?.data ?? []).map((dish) => (
-            <Link key={dish.id} href={`/dish/${dish.id}`} className="flex flex-col group tap-effect">
-              <div className="w-full aspect-[16/9] rounded-xl overflow-hidden mb-3 bg-card relative">
+            <Link key={dish.id} href={`/dish/${dish.id}`} className="group tap-effect block">
+              <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-card" style={{boxShadow:"0 8px 32px rgba(0,0,0,0.4)"}}>
                 <img 
                   src={dish.imageUrl || getFallbackImage(dish.categoryId)} 
                   alt={dish.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   loading="lazy"
                 />
                 {!dish.isAvailable && (
