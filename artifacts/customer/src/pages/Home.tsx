@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full min-h-screen pb-6">
       {/* Hero */}
-      <section className="relative w-full pt-16 pb-12 px-6 flex flex-col items-center justify-center border-b border-border overflow-hidden">
+      <section className="relative w-full flex flex-col items-center justify-center border-b border-border overflow-hidden" style={{minHeight:"280px"}}>
         <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover z-0" style={{filter:"brightness(0.35)"}}>
           <source src="https://res.cloudinary.com/dyzpjsj3c/video/upload/v1781461371/restaurant/iwmb6clor6tkuznhkjus.mp4" type="video/mp4" />
         </video>
@@ -135,6 +135,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
