@@ -1,6 +1,6 @@
-﻿import { createRoot } from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { setBaseUrl } from "@workspace/api-client-react";
-setBaseUrl("http://localhost:3000");
+setBaseUrl(import.meta.env.VITE_API_URL || "https://restaurant-qr-45iy.onrender.com");
 createRoot(document.getElementById("root")!).render(<App />);
