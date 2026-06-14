@@ -129,19 +129,6 @@ export default function Home() {
                   </div>
                 )}
               </div>
-              <div className="flex justify-between items-start gap-4">
-                <div className="flex-1">
-                  <h3 className="font-serif text-[18px] font-semibold text-foreground mb-1 leading-snug">
-                    {dish.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-                    {dish.description || "Une dأ©licieuse spأ©cialitأ© prأ©parأ©e avec soin."}
-                  </p>
-                </div>
-                <div className="font-semibold text-primary text-right whitespace-nowrap">
-                  {formatPrice(dish.price)}
-                </div>
-              </div>
             </Link>
           ))
         )}
