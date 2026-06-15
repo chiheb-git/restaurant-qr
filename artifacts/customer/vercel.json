@@ -1,1 +1,1 @@
-﻿{"buildCommand":"cd .. && pnpm install && pnpm --filter @workspace/customer build","outputDirectory":"dist/public","routes":[{"src":"/models/(.*)","dest":"/models/$1"},{"src":"/assets/(.*)","dest":"/assets/$1"},{"src":"(.*)","dest":"/index.html"}]}
+﻿{"outputDirectory":"dist/public","routes":[{"src":"/models/(.*)","dest":"/models/$1"},{"src":"/assets/(.*)","dest":"/assets/$1"},{"src":"(.*)","dest":"/index.html"}]}
