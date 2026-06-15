@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+﻿import { useState, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { 
   useListDishes, 
@@ -148,10 +148,10 @@ export default function DishesPage() {
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: getListDishesQueryKey() });
-            toast.success("Plat mis à jour");
+            toast.success("Plat mis أ  jour");
             handleCloseModal();
           },
-          onError: () => toast.error("Erreur lors de la mise à jour"),
+          onError: () => toast.error("Erreur lors de la mise أ  jour"),
         }
       );
     } else {
@@ -160,10 +160,10 @@ export default function DishesPage() {
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: getListDishesQueryKey() });
-            toast.success("Plat créé");
+            toast.success("Plat crأ©أ©");
             handleCloseModal();
           },
-          onError: () => toast.error("Erreur lors de la création"),
+          onError: () => toast.error("Erreur lors de la crأ©ation"),
         }
       );
     }
@@ -177,7 +177,7 @@ export default function DishesPage() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getListDishesQueryKey() });
-          toast.success("Plat supprimé");
+          toast.success("Plat supprimأ©");
           setDeletingDish(null);
         },
         onError: () => toast.error("Erreur lors de la suppression"),
@@ -204,7 +204,7 @@ export default function DishesPage() {
           if (previousDishes) {
             queryClient.setQueryData(getListDishesQueryKey({ category_id: categoryIdParam }), previousDishes);
           }
-          toast.error("Erreur lors de la modification de disponibilité");
+          toast.error("Erreur lors de la modification de disponibilitأ©");
         }
       }
     );
@@ -217,7 +217,7 @@ export default function DishesPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Plats</h1>
-          <p className="text-muted-foreground mt-1">Gérez le catalogue de vos plats.</p>
+          <p className="text-muted-foreground mt-1">Gأ©rez le catalogue de vos plats.</p>
         </div>
         <Button onClick={() => handleOpenModal()} className="bg-primary text-primary-foreground hover:bg-primary/90">
           <Plus className="mr-2 h-4 w-4" /> Ajouter un plat
@@ -252,7 +252,7 @@ export default function DishesPage() {
           ))
         ) : !dishes || dishes.length === 0 ? (
           <div className="col-span-full py-12 text-center text-muted-foreground border rounded-lg bg-card">
-            Aucun plat trouvé dans cette catégorie.
+            Aucun plat trouvأ© dans cette catأ©gorie.
           </div>
         ) : (
           dishes.map((dish) => (
@@ -335,7 +335,7 @@ export default function DishesPage() {
                     name="categoryId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Catégorie</FormLabel>
+                        <FormLabel>Catأ©gorie</FormLabel>
                         <Select 
                           onValueChange={(val) => field.onChange(parseInt(val))} 
                           defaultValue={field.value?.toString()}
@@ -343,7 +343,7 @@ export default function DishesPage() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Sélectionner une catégorie" />
+                              <SelectValue placeholder="Sأ©lectionner une catأ©gorie" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -404,7 +404,7 @@ export default function DishesPage() {
                         <FormLabel>Description</FormLabel>
                         <FormControl>
                           <Textarea 
-                            placeholder="Description des ingrédients..." 
+                            placeholder="Description des ingrأ©dients..." 
                             className="resize-none" 
                             rows={3}
                             {...field} 
@@ -428,7 +428,7 @@ export default function DishesPage() {
                         try {
                           const fd = new FormData();
                           fd.append("file", file);
-                          const resp = await fetch(`/api/upload`, { method: "POST", body: fd });
+                          const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/upload`, { method: "POST", body: fd });
                           const json = await resp.json();
                           if (resp.ok && json.url) {
                             field.onChange(json.url);
@@ -446,7 +446,7 @@ export default function DishesPage() {
 
                       return (
                         <FormItem>
-                          <FormLabel>Image du plat (glisser-déposer ou parcourir)</FormLabel>
+                          <FormLabel>Image du plat (glisser-dأ©poser ou parcourir)</FormLabel>
                           <FormControl>
                             <div
                               onDragOver={(e) => e.preventDefault()}
@@ -465,7 +465,7 @@ export default function DishesPage() {
                                 )}
                               </div>
                               <div className="flex-1">
-                                <div className="text-sm text-muted-foreground mb-2">Déposez une image ici ou</div>
+                                <div className="text-sm text-muted-foreground mb-2">Dأ©posez une image ici ou</div>
                                 <div className="flex items-center gap-2">
                                   <input
                                     type="file"
@@ -494,7 +494,7 @@ export default function DishesPage() {
                     name="modelGlbUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>URL du modèle 3D (.glb) (optionnel)</FormLabel>
+                        <FormLabel>URL du modأ¨le 3D (.glb) (optionnel)</FormLabel>
                         <FormControl>
                           <Input placeholder="https://..." {...field} />
                         </FormControl>
@@ -510,11 +510,11 @@ export default function DishesPage() {
                 <AlertDescription className="text-xs ml-2">
                   <p className="font-semibold mb-1">Comment obtenir le fichier .glb :</p>
                   <ol className="list-decimal pl-4 space-y-1">
-                    <li>Photo du plat → Meshy.ai (Image to 3D)</li>
-                    <li>Amélioration → Luma AI</li>
-                    <li>Retexture IA → Blender + Dream Textures</li>
-                    <li>Export → glTF 2.0 + compression Draco</li>
-                    <li>Héberger le .glb et coller l'URL ici</li>
+                    <li>Photo du plat â†’ Meshy.ai (Image to 3D)</li>
+                    <li>Amأ©lioration â†’ Luma AI</li>
+                    <li>Retexture IA â†’ Blender + Dream Textures</li>
+                    <li>Export â†’ glTF 2.0 + compression Draco</li>
+                    <li>Hأ©berger le .glb et coller l'URL ici</li>
                   </ol>
                 </AlertDescription>
               </Alert>
@@ -523,7 +523,7 @@ export default function DishesPage() {
                 <Button type="button" variant="outline" onClick={handleCloseModal}>Annuler</Button>
                 <Button type="submit" disabled={isPending}>
                   {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {editingDish ? "Enregistrer" : "Créer"}
+                  {editingDish ? "Enregistrer" : "Crأ©er"}
                 </Button>
               </div>
             </form>
@@ -534,9 +534,9 @@ export default function DishesPage() {
       <AlertDialog open={!!deletingDish} onOpenChange={(open) => !open && setDeletingDish(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Êtes-vous sûr ?</AlertDialogTitle>
+            <AlertDialogTitle>أٹtes-vous sأ»r ?</AlertDialogTitle>
             <AlertDialogDescription>
-              Cette action est irréversible. Elle supprimera le plat "{deletingDish?.name}".
+              Cette action est irrأ©versible. Elle supprimera le plat "{deletingDish?.name}".
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -551,3 +551,4 @@ export default function DishesPage() {
     </div>
   );
 }
+
