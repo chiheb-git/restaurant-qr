@@ -1,4 +1,4 @@
-import { MapPin, Phone, Clock, Instagram } from "lucide-react";
+﻿import { MapPin, Phone, Clock, Instagram } from "lucide-react";
 
 export default function About() {
   return (
@@ -9,7 +9,7 @@ export default function About() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1000')] bg-cover bg-center opacity-40"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
         <div className="absolute bottom-6 left-6 right-6">
-          <h1 className="text-4xl font-serif text-white mb-2">Solarios</h1>
+          <h1 className="text-4xl font-serif text-white mb-2">Le Palais d'Orient</h1>
           <p className="text-primary font-medium tracking-widest uppercase text-sm">Restaurant</p>
         </div>
       </div>
@@ -64,13 +64,13 @@ export default function About() {
         </div>
 
         {/* Instagram */}
-        <div className="flex items-start gap-4 tap-effect cursor-pointer" onClick={() => window.open('https://www.instagram.com/solarios_restaurant', '_blank')}>
+        <div className="flex items-start gap-4 tap-effect cursor-pointer" onClick={() => window.open('https://www.instagram.com/Le Palais d'Orient_restaurant', '_blank')}>
           <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center border border-border text-primary shrink-0">
             <Instagram className="w-5 h-5" />
           </div>
           <div>
             <h3 className="font-semibold text-foreground mb-1">Instagram</h3>
-            <p className="text-primary text-sm font-medium">@solarios_restaurant</p>
+            <p className="text-primary text-sm font-medium">@Le Palais d'Orient_restaurant</p>
             <p className="text-muted-foreground text-xs mt-1">10.4K abonnes · Ouvrir Instagram</p>
           </div>
         </div>
