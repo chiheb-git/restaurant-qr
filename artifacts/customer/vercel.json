@@ -1,1 +1,1 @@
-﻿{"outputDirectory":"dist/public","routes":[{"src":"/models/(.*)","dest":"/models/$1"},{"src":"/assets/(.*)","dest":"/assets/$1"},{"src":"(.*)","dest":"/index.html"}]}
+﻿{"outputDirectory":"dist/public","rewrites":[{"source":"/models/(.*)","destination":"/models/$1"},{"source":"/assets/(.*)","destination":"/assets/$1"},{"source":"(.*)","destination":"/index.html"}]}
