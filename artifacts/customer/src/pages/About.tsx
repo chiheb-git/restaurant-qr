@@ -64,7 +64,7 @@ export default function About() {
         </div>
 
         {/* Instagram */}
-        <div className="flex items-start gap-4 tap-effect cursor-pointer" onClick={() => window.open('https://www.instagram.com/Le Palais d'Orient_restaurant', '_blank')}>
+        <div className="flex items-start gap-4 tap-effect cursor-pointer" onClick={() => window.open('https://www.instagram.com/lepalais_dorient', '_blank')}>
           <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center border border-border text-primary shrink-0">
             <Instagram className="w-5 h-5" />
           </div>
