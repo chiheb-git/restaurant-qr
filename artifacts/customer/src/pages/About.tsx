@@ -17,24 +17,19 @@ export default function About() {
       <div className="p-6 space-y-6">
 
         {/* Adresse */}
-        
-          href="https://maps.app.goo.gl/CtdXYzTKpSbbRBws7?g_st=com.google.maps.preview.copy"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-start gap-4 tap-effect"
-        >
+        <div className="flex items-start gap-4 tap-effect cursor-pointer" onClick={() => window.open('https://maps.app.goo.gl/CtdXYzTKpSbbRBws7', '_blank')}>
           <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center border border-border text-primary shrink-0">
             <MapPin className="w-5 h-5" />
           </div>
           <div>
             <h3 className="font-semibold text-foreground mb-1">Adresse</h3>
             <p className="text-muted-foreground text-sm">
-              Boulevard des Frères Bouafia, Bel Air<br />
-              (Près de Natixis), Tlemcen
+              Boulevard des Freres Bouafia, Bel Air<br />
+              (Pres de Natixis), Tlemcen
             </p>
             <p className="text-primary text-xs mt-1 underline">Ouvrir dans Maps</p>
           </div>
-        </a>
+        </div>
 
         {/* Horaires */}
         <div className="flex items-start gap-4">
@@ -46,18 +41,18 @@ export default function About() {
             <div className="text-muted-foreground text-sm space-y-1">
               <div className="flex justify-between gap-8">
                 <span>Sam - Jeu</span>
-                <span className="text-foreground">12:00 – 00:00</span>
+                <span className="text-foreground">12:00 - 00:00</span>
               </div>
               <div className="flex justify-between gap-8">
                 <span>Vendredi</span>
-                <span className="text-foreground">17:00 – 00:00</span>
+                <span className="text-foreground">17:00 - 00:00</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Téléphone */}
-        <a href="tel:+213774304767" className="flex items-start gap-4 tap-effect">
+        {/* Telephone */}
+        <div className="flex items-start gap-4 tap-effect cursor-pointer" onClick={() => window.open('tel:+213774304767', '_self')}>
           <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center border border-border text-primary shrink-0">
             <Phone className="w-5 h-5" />
           </div>
@@ -66,47 +61,24 @@ export default function About() {
             <p className="text-muted-foreground text-sm">0774304767</p>
             <p className="text-primary text-xs mt-1 underline">Appeler maintenant</p>
           </div>
-        </a>
+        </div>
 
         {/* Instagram */}
-        
-          href="https://www.instagram.com/solarios_restaurant"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-start gap-4 tap-effect"
-        >
+        <div className="flex items-start gap-4 tap-effect cursor-pointer" onClick={() => window.open('https://www.instagram.com/solarios_restaurant', '_blank')}>
           <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center border border-border text-primary shrink-0">
             <Instagram className="w-5 h-5" />
           </div>
           <div>
             <h3 className="font-semibold text-foreground mb-1">Instagram</h3>
             <p className="text-primary text-sm font-medium">@solarios_restaurant</p>
-            <p className="text-muted-foreground text-xs mt-1">10.4K abonnés · Ouvrir Instagram</p>
+            <p className="text-muted-foreground text-xs mt-1">10.4K abonnes · Ouvrir Instagram</p>
           </div>
-        </a>
+        </div>
 
         {/* Developer Credit */}
-        <div style={{
-          marginTop:"32px",
-          paddingTop:"20px",
-          borderTop:"1px solid rgba(201,168,76,0.12)",
-          textAlign:"center",
-          paddingBottom:"8px"
-        }}>
-          <p style={{
-            fontSize:"9px",
-            color:"rgba(255,255,255,0.18)",
-            letterSpacing:"0.22em",
-            textTransform:"uppercase",
-            fontFamily:"Inter, sans-serif",
-            margin:0
-          }}>
-            Developed by{" "}
-            <span style={{
-              color:"rgba(201,168,76,0.6)",
-              fontWeight:700,
-              letterSpacing:"0.12em"
-            }}>Meghraoui Chiheb</span>
+        <div style={{marginTop:"32px",paddingTop:"20px",borderTop:"1px solid rgba(201,168,76,0.12)",textAlign:"center",paddingBottom:"8px"}}>
+          <p style={{fontSize:"9px",color:"rgba(255,255,255,0.18)",letterSpacing:"0.22em",textTransform:"uppercase",fontFamily:"Inter, sans-serif",margin:0}}>
+            Developed by <span style={{color:"rgba(201,168,76,0.6)",fontWeight:700,letterSpacing:"0.12em"}}>Meghraoui Chiheb</span>
           </p>
         </div>
 
