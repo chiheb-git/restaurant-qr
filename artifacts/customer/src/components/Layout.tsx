@@ -1,23 +1,18 @@
 import { Link, useLocation } from "wouter";
-import { Home, Menu, Box, Info } from "lucide-react";
+import { Menu, Box, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
-
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
-
   const navItems = [
-    { href: "/", icon: Home, label: "Home" },
-    { href: "/", icon: Menu, label: "Menu" }, // both point to home per requirements
-    { href: "/ar/1", icon: Box, label: "AR" }, // generic AR link for nav, ideally should be hidden if no dish selected, but per req we have 4 icons
+    { href: "/", icon: Menu, label: "Menu" },
+    { href: "/ar", icon: Box, label: "AR" },
     { href: "/about", icon: Info, label: "Info" },
   ];
-
   return (
     <div className="min-h-[100dvh] flex flex-col bg-background text-foreground pb-20">
       <main className="flex-1 w-full max-w-md mx-auto relative">
         {children}
       </main>
-
       <nav className="fixed bottom-0 left-0 right-0 glass-nav z-50">
         <div className="flex items-center justify-around h-16 max-w-md mx-auto px-4">
           {navItems.map((item, i) => {
