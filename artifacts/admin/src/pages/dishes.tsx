@@ -1,7 +1,7 @@
 ﻿import { useState, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { 
-  useListDishes, 
+import {
+  useListDishes,
   getListDishesQueryKey,
   useListCategories,
   useCreateDish,
@@ -72,11 +72,11 @@ type DishFormValues = z.infer<typeof dishSchema>;
 export default function DishesPage() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<string>("all");
-  
+
   const categoryIdParam = activeTab === "all" ? undefined : parseInt(activeTab);
   const { data: dishes, isLoading: isLoadingDishes } = useListDishes({ category_id: categoryIdParam });
   const { data: categories } = useListCategories();
-  
+
   const createDish = useCreateDish();
   const updateDish = useUpdateDish();
   const deleteDish = useDeleteDish();
@@ -135,7 +135,6 @@ export default function DishesPage() {
   };
 
   const onSubmit = (values: DishFormValues) => {
-    // Convert empty strings to null for URLs
     const data = {
       ...values,
       imageUrl: values.imageUrl || undefined,
@@ -148,10 +147,10 @@ export default function DishesPage() {
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: getListDishesQueryKey() });
-            toast.success("Plat mis أ  jour");
+            toast.success("Plat mis a jour");
             handleCloseModal();
           },
-          onError: () => toast.error("Erreur lors de la mise أ  jour"),
+          onError: () => toast.error("Erreur lors de la mise a jour"),
         }
       );
     } else {
@@ -160,10 +159,10 @@ export default function DishesPage() {
         {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: getListDishesQueryKey() });
-            toast.success("Plat crأ©أ©");
+            toast.success("Plat cree");
             handleCloseModal();
           },
-          onError: () => toast.error("Erreur lors de la crأ©ation"),
+          onError: () => toast.error("Erreur lors de la creation"),
         }
       );
     }
@@ -171,13 +170,12 @@ export default function DishesPage() {
 
   const handleDelete = () => {
     if (!deletingDish) return;
-    
     deleteDish.mutate(
       { id: deletingDish.id },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getListDishesQueryKey() });
-          toast.success("Plat supprimأ©");
+          toast.success("Plat supprime");
           setDeletingDish(null);
         },
         onError: () => toast.error("Erreur lors de la suppression"),
@@ -186,25 +184,21 @@ export default function DishesPage() {
   };
 
   const handleToggleAvailability = (dish: Dish, checked: boolean) => {
-    // Optimistic update
     const previousDishes = queryClient.getQueryData<Dish[]>(getListDishesQueryKey({ category_id: categoryIdParam }));
-    
     if (previousDishes) {
       queryClient.setQueryData(
         getListDishesQueryKey({ category_id: categoryIdParam }),
         previousDishes.map(d => d.id === dish.id ? { ...d, isAvailable: checked } : d)
       );
     }
-
     toggleAvailability.mutate(
       { id: dish.id },
       {
         onError: () => {
-          // Revert on error
           if (previousDishes) {
             queryClient.setQueryData(getListDishesQueryKey({ category_id: categoryIdParam }), previousDishes);
           }
-          toast.error("Erreur lors de la modification de disponibilitأ©");
+          toast.error("Erreur lors de la modification de disponibilite");
         }
       }
     );
@@ -217,7 +211,7 @@ export default function DishesPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Plats</h1>
-          <p className="text-muted-foreground mt-1">Gأ©rez le catalogue de vos plats.</p>
+          <p className="text-muted-foreground mt-1">Gerez le catalogue de vos plats.</p>
         </div>
         <Button onClick={() => handleOpenModal()} className="bg-primary text-primary-foreground hover:bg-primary/90">
           <Plus className="mr-2 h-4 w-4" /> Ajouter un plat
@@ -252,7 +246,7 @@ export default function DishesPage() {
           ))
         ) : !dishes || dishes.length === 0 ? (
           <div className="col-span-full py-12 text-center text-muted-foreground border rounded-lg bg-card">
-            Aucun plat trouvأ© dans cette catأ©gorie.
+            Aucun plat trouve dans cette categorie.
           </div>
         ) : (
           dishes.map((dish) => (
@@ -286,8 +280,8 @@ export default function DishesPage() {
                 <div className="flex items-center justify-between mt-auto pt-4 border-t">
                   <div className="font-medium text-primary">{formatPrice(dish.price)}</div>
                   <div className="flex items-center space-x-2">
-                    <Switch 
-                      checked={dish.isAvailable} 
+                    <Switch
+                      checked={dish.isAvailable}
                       onCheckedChange={(checked) => handleToggleAvailability(dish, checked)}
                       aria-label="Toggle availability"
                     />
@@ -329,21 +323,21 @@ export default function DishesPage() {
                       </FormItem>
                     )}
                   />
-                  
+
                   <FormField
                     control={form.control}
                     name="categoryId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Catأ©gorie</FormLabel>
-                        <Select 
-                          onValueChange={(val) => field.onChange(parseInt(val))} 
+                        <FormLabel>Categorie</FormLabel>
+                        <Select
+                          onValueChange={(val) => field.onChange(parseInt(val))}
                           defaultValue={field.value?.toString()}
                           value={field.value?.toString()}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Sأ©lectionner une catأ©gorie" />
+                              <SelectValue placeholder="Selectionner une categorie" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -403,11 +397,11 @@ export default function DishesPage() {
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <Textarea 
-                            placeholder="Description des ingrأ©dients..." 
-                            className="resize-none" 
+                          <Textarea
+                            placeholder="Description des ingredients..."
+                            className="resize-none"
                             rows={3}
-                            {...field} 
+                            {...field}
                           />
                         </FormControl>
                         <FormMessage />
@@ -421,6 +415,8 @@ export default function DishesPage() {
                     render={({ field }) => {
                       const [uploading, setUploading] = useState(false);
                       const [preview, setPreview] = useState<string | null>(field.value || null);
+                      const [imageMode, setImageMode] = useState<"upload" | "url">("upload");
+                      const [urlInput, setUrlInput] = useState(field.value || "");
 
                       const handleFile = async (file?: File) => {
                         if (!file) return;
@@ -434,7 +430,6 @@ export default function DishesPage() {
                             field.onChange(json.url);
                             setPreview(json.url);
                           } else {
-                            // keep previous value
                             console.error(json);
                           }
                         } catch (err) {
@@ -444,46 +439,91 @@ export default function DishesPage() {
                         }
                       };
 
+                      const handleUrlConfirm = () => {
+                        field.onChange(urlInput);
+                        setPreview(urlInput || null);
+                      };
+
+                      const handleClear = () => {
+                        field.onChange("");
+                        setPreview(null);
+                        setUrlInput("");
+                      };
+
                       return (
                         <FormItem>
-                          <FormLabel>Image du plat (glisser-dأ©poser ou parcourir)</FormLabel>
+                          <FormLabel>Image du plat</FormLabel>
                           <FormControl>
-                            <div
-                              onDragOver={(e) => e.preventDefault()}
-                              onDrop={(e) => {
-                                e.preventDefault();
-                                const f = e.dataTransfer?.files?.[0];
-                                if (f) handleFile(f);
-                              }}
-                              className="border-dashed border-2 border-border rounded-md p-4 flex items-center gap-4"
-                            >
-                              <div className="w-24 h-24 bg-card overflow-hidden rounded-md flex items-center justify-center">
-                                {preview ? (
-                                  <img src={preview} alt="preview" className="w-full h-full object-cover" />
-                                ) : (
-                                  <ImageIcon className="h-8 w-8 text-muted-foreground" />
-                                )}
+                            <div className="border rounded-md overflow-hidden">
+                              <div className="flex border-b">
+                                <button
+                                  type="button"
+                                  onClick={() => setImageMode("upload")}
+                                  className={`flex-1 py-2 text-sm font-medium transition-colors ${imageMode === "upload" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}
+                                >
+                                  Galerie
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setImageMode("url")}
+                                  className={`flex-1 py-2 text-sm font-medium transition-colors ${imageMode === "url" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"}`}
+                                >
+                                  Lien URL
+                                </button>
                               </div>
-                              <div className="flex-1">
-                                <div className="text-sm text-muted-foreground mb-2">Dأ©posez une image ici ou</div>
-                                <div className="flex items-center gap-2">
-                                  <input
-                                    type="file"
-                                    accept="image/*"
-                                    id="dish-image-input"
-                                    className="hidden"
-                                    onChange={(e) => handleFile(e.target.files?.[0])}
-                                  />
-                                  <label htmlFor="dish-image-input" className="btn cursor-pointer inline-flex items-center px-3 py-2 border rounded-md">
-                                    {uploading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
-                                    Parcourir
-                                  </label>
-                                  <Button variant="ghost" onClick={() => { field.onChange(""); setPreview(null); }}>Supprimer</Button>
-                                </div>
-                                <FormMessage />
+
+                              <div className="p-3 space-y-3">
+                                {preview && (
+                                  <div className="relative w-full h-32 rounded-md overflow-hidden bg-muted">
+                                    <img src={preview} alt="preview" className="w-full h-full object-cover" />
+                                    <button
+                                      type="button"
+                                      onClick={handleClear}
+                                      className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold"
+                                    >x</button>
+                                  </div>
+                                )}
+
+                                {imageMode === "upload" ? (
+                                  <div
+                                    onDragOver={(e) => e.preventDefault()}
+                                    onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer?.files?.[0]; if (f) handleFile(f); }}
+                                    className="border-dashed border-2 border-border rounded-md p-3 text-center"
+                                  >
+                                    <div className="text-sm text-muted-foreground mb-2">Glissez une image ici ou</div>
+                                    <div className="flex items-center justify-center gap-2">
+                                      <input
+                                        type="file"
+                                        accept="image/*"
+                                        id="dish-image-input"
+                                        className="hidden"
+                                        onChange={(e) => handleFile(e.target.files?.[0])}
+                                      />
+                                      <label htmlFor="dish-image-input" className="cursor-pointer inline-flex items-center px-3 py-1.5 border rounded-md text-sm hover:bg-muted transition-colors">
+                                        {uploading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
+                                        Parcourir
+                                      </label>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="space-y-2">
+                                    <div className="text-xs text-muted-foreground">Coller un lien direct vers l image (Google Drive, Imgur, etc.)</div>
+                                    <div className="flex gap-2">
+                                      <Input
+                                        placeholder="https://..."
+                                        value={urlInput}
+                                        onChange={(e) => setUrlInput(e.target.value)}
+                                        onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleUrlConfirm(); } }}
+                                        className="text-sm"
+                                      />
+                                      <Button type="button" size="sm" onClick={handleUrlConfirm}>OK</Button>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       );
                     }}
@@ -494,7 +534,7 @@ export default function DishesPage() {
                     name="modelGlbUrl"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>URL du modأ¨le 3D (.glb) (optionnel)</FormLabel>
+                        <FormLabel>URL du modele 3D (.glb) (optionnel)</FormLabel>
                         <FormControl>
                           <Input placeholder="https://..." {...field} />
                         </FormControl>
@@ -510,11 +550,11 @@ export default function DishesPage() {
                 <AlertDescription className="text-xs ml-2">
                   <p className="font-semibold mb-1">Comment obtenir le fichier .glb :</p>
                   <ol className="list-decimal pl-4 space-y-1">
-                    <li>Photo du plat â†’ Meshy.ai (Image to 3D)</li>
-                    <li>Amأ©lioration â†’ Luma AI</li>
-                    <li>Retexture IA â†’ Blender + Dream Textures</li>
-                    <li>Export â†’ glTF 2.0 + compression Draco</li>
-                    <li>Hأ©berger le .glb et coller l'URL ici</li>
+                    <li>Photo du plat - Meshy.ai (Image to 3D)</li>
+                    <li>Amelioration - Luma AI</li>
+                    <li>Retexture IA - Blender + Dream Textures</li>
+                    <li>Export - glTF 2.0 + compression Draco</li>
+                    <li>Heberger le .glb et coller l URL ici</li>
                   </ol>
                 </AlertDescription>
               </Alert>
@@ -523,7 +563,7 @@ export default function DishesPage() {
                 <Button type="button" variant="outline" onClick={handleCloseModal}>Annuler</Button>
                 <Button type="submit" disabled={isPending}>
                   {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {editingDish ? "Enregistrer" : "Crأ©er"}
+                  {editingDish ? "Enregistrer" : "Creer"}
                 </Button>
               </div>
             </form>
@@ -534,9 +574,9 @@ export default function DishesPage() {
       <AlertDialog open={!!deletingDish} onOpenChange={(open) => !open && setDeletingDish(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>أٹtes-vous sأ»r ?</AlertDialogTitle>
+            <AlertDialogTitle>Etes-vous sur ?</AlertDialogTitle>
             <AlertDialogDescription>
-              Cette action est irrأ©versible. Elle supprimera le plat "{deletingDish?.name}".
+              Cette action est irreversible. Elle supprimera le plat "{deletingDish?.name}".
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -551,4 +591,3 @@ export default function DishesPage() {
     </div>
   );
 }
-
