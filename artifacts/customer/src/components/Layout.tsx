@@ -10,11 +10,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
   return (
     <div className="min-h-[100dvh] flex flex-col bg-background text-foreground pb-20">
-      <main className="flex-1 w-full max-w-2xl mx-auto relative">
+      <main className="flex-1 w-full relative">
         {children}
       </main>
       <nav className="fixed bottom-0 left-0 right-0 glass-nav z-50">
-        <div className="flex items-center justify-around h-16 max-w-2xl mx-auto px-4">
+        <div className="flex items-center justify-around h-16 px-8">
           {navItems.map((item, i) => {
             const isActive = location === item.href || (item.label === "Menu" && location === "/");
             return (
