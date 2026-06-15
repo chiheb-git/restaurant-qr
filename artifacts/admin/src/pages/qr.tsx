@@ -25,10 +25,10 @@ export default function QrPage() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetQrCodeQueryKey() });
-          toast.success("QR Code rأ©gأ©nأ©rأ© avec succأ¨s");
+          toast.success("QR Code régénéré avec succès");
         },
         onError: () => {
-          toast.error("Erreur lors de la gأ©nأ©ration du QR Code");
+          toast.error("Erreur lors de la génération du QR Code");
         }
       }
     );
@@ -58,7 +58,7 @@ export default function QrPage() {
     <div className="py-8 space-y-8 max-w-4xl mx-auto">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">QR Code</h1>
-        <p className="text-muted-foreground mt-1">Gأ©rez le QR code pour vos tables.</p>
+        <p className="text-muted-foreground mt-1">Gérez le QR code pour vos tables.</p>
       </div>
 
       <Card className="overflow-hidden border-2">
@@ -115,7 +115,7 @@ export default function QrPage() {
             ) : (
               <RefreshCw className="mr-2 h-5 w-5" />
             )}
-            Rأ©gأ©nأ©rer le QR
+            Régénérer le QR
           </Button>
           <Button 
             variant="secondary" 
@@ -125,7 +125,7 @@ export default function QrPage() {
             className="w-full sm:w-auto"
           >
             <Download className="mr-2 h-5 w-5" />
-            Tأ©lأ©charger PNG
+            Télécharger PNG
           </Button>
           <Button 
             size="lg" 
