@@ -9,8 +9,8 @@ export default function About() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=1000')] bg-cover bg-center opacity-40"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
         <div className="absolute bottom-6 left-6 right-6">
-          <h1 className="text-4xl font-serif text-white mb-2">Le Palais d'Orient</h1>
-          <p className="text-primary font-medium tracking-widest uppercase text-sm">Restaurant</p>
+          <h1 className="text-4xl font-serif text-white mb-2">SOLARIOS</h1>
+          <p className="text-primary font-medium tracking-widest uppercase text-sm">SOLARIOS RESTAURANT</p>
         </div>
       </div>
 
@@ -70,7 +70,7 @@ export default function About() {
           </div>
           <div>
             <h3 className="font-semibold text-foreground mb-1">Instagram</h3>
-            <p className="text-primary text-sm font-medium">@Le Palais d'Orient_restaurant</p>
+            <p className="text-primary text-sm font-medium">@SOLARIOS_SOLARIOS RESTAURANT</p>
             <p className="text-muted-foreground text-xs mt-1">10.4K abonnes · Ouvrir Instagram</p>
           </div>
         </div>
