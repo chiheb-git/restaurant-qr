@@ -10,7 +10,7 @@ export default function About() {
         <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
         <div className="absolute bottom-6 left-6 right-6">
           <h1 className="text-4xl font-serif text-white mb-2">SOLARIOS</h1>
-          <p className="text-primary font-medium tracking-widest uppercase text-sm">SOLARIOS RESTAURANT</p>
+          <p className="text-primary font-medium tracking-widest uppercase text-sm">RESTAURANT SOLARIOS</p>
         </div>
       </div>
 
