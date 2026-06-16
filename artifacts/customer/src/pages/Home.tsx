@@ -32,7 +32,7 @@ export default function Home() {
           <source src="https://res.cloudinary.com/dyzpjsj3c/video/upload/v1781461371/restaurant/iwmb6clor6tkuznhkjus.mp4" type="video/mp4" />
         </video>
         <div className="relative z-10 text-center px-6">
-          <h1 className="text-5xl font-serif text-white mb-2 drop-shadow-lg">Solarios</h1>
+
           <p className="text-primary tracking-widest uppercase text-sm font-medium">Restaurant</p>
         </div>
       </section>
