@@ -1,178 +1,165 @@
 ﻿import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { 
-  useGetQrCode, 
-  getGetQrCodeQueryKey,
-  useGenerateQrCode
-} from "@workspace/api-client-react";
+import { useGetQrCode, getGetQrCodeQueryKey, useGenerateQrCode } from "@workspace/api-client-react";
 import { toast } from "sonner";
-import { Download, Printer, RefreshCw, QrCode as QrIcon, Loader2 } from "lucide-react";
-
+import { Download, Printer, RefreshCw, QrCode as QrIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
 
 export default function QrPage() {
   const queryClient = useQueryClient();
   const { data: qrCode, isLoading } = useGetQrCode();
   const generateQrCode = useGenerateQrCode();
-  
-  const [isPrinting, setIsPrinting] = useState(false);
+  const [tableCount, setTableCount] = useState(1);
 
   const handleGenerate = () => {
-    generateQrCode.mutate(
-      {},
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: getGetQrCodeQueryKey() });
-          toast.success("QR Code régénéré avec succès");
-        },
-        onError: () => {
-          toast.error("Erreur lors de la génération du QR Code");
-        }
-      }
-    );
+    generateQrCode.mutate({}, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: getGetQrCodeQueryKey() });
+        toast.success("QR Code régénéré avec succès");
+      },
+      onError: () => toast.error("Erreur lors de la génération")
+    });
   };
 
   const handleDownload = () => {
     if (!qrCode?.pngBase64) return;
-    
-    const link = document.createElement('a');
-    const base64 = qrCode.pngBase64.startsWith("data:") ? qrCode.pngBase64 : `data:image/png;base64,${qrCode.pngBase64}`;
-    link.href = base64;
-    link.download = `menu-qr-${new Date().toISOString().split('T')[0]}.png`;
+    const link = document.createElement("a");
+    link.href = qrCode.pngBase64.startsWith("data:") ? qrCode.pngBase64 : `data:image/png;base64,${qrCode.pngBase64}`;
+    link.download = `menu-qr.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   const handlePrint = () => {
-    setIsPrinting(true);
-    setTimeout(() => {
-      window.print();
-      setIsPrinting(false);
-    }, 100);
+    const count = Math.max(1, Math.min(50, tableCount));
+    const base64 = qrCode?.pngBase64?.startsWith("data:") ? qrCode.pngBase64 : `data:image/png;base64,${qrCode?.pngBase64}`;
+    const win = window.open("", "_blank");
+    if (!win) return;
+    const items = Array.from({ length: count }, (_, i) => `
+      <div class="qr-item">
+        <img src="${base64}" alt="QR Table ${i + 1}" />
+        <div class="table-label">Table #${i + 1}</div>
+        <div class="restaurant-name">Le Palais d'Orient</div>
+        <div class="scan-text">Scannez pour accéder au menu</div>
+      </div>
+    `).join("");
+    win.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>QR Codes - Le Palais d'Orient</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: 'Georgia', serif; background: #fff; }
+          .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 32px; }
+          .qr-item {
+            display: flex; flex-direction: column; align-items: center;
+            border: 2px solid #C9A84C; border-radius: 16px;
+            padding: 20px 16px; background: #fff;
+            page-break-inside: avoid;
+          }
+          .qr-item img { width: 160px; height: 160px; margin-bottom: 12px; }
+          .table-label { font-size: 22px; font-weight: bold; color: #1A1A1A; margin-bottom: 4px; }
+          .restaurant-name { font-size: 13px; color: #C9A84C; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+          .scan-text { font-size: 11px; color: #888; text-align: center; }
+          @media print {
+            body { -webkit-print-color-adjust: exact; }
+            .grid { gap: 16px; padding: 16px; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="grid">${items}</div>
+        <script>window.onload = () => { window.print(); }</script>
+      </body>
+      </html>
+    `);
+    win.document.close();
   };
 
+  const base64Src = qrCode?.pngBase64?.startsWith("data:") ? qrCode.pngBase64 : `data:image/png;base64,${qrCode?.pngBase64}`;
+
   return (
-    <div className="py-8 space-y-8 max-w-4xl mx-auto">
+    <div className="py-8 space-y-8 max-w-2xl mx-auto">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">QR Code</h1>
-        <p className="text-muted-foreground mt-1">Gérez le QR code pour vos tables.</p>
+        <p className="text-muted-foreground mt-1">Gérez et imprimez les QR codes pour vos tables.</p>
       </div>
 
-      <Card className="overflow-hidden border-2">
+      <Card className="border-2">
         <CardHeader className="text-center pb-2 bg-muted/30 border-b">
           <CardTitle className="text-2xl">Menu Digital</CardTitle>
-          <CardDescription className="text-base mt-2 max-w-md mx-auto">
-            Ce QR code est identique pour toutes les tables. Il pointe vers l'URL fixe du menu.
-          </CardDescription>
+          <p className="text-sm text-muted-foreground mt-1">Ce QR code est identique pour toutes les tables.</p>
         </CardHeader>
-        <CardContent className="flex flex-col items-center justify-center py-12 print:py-0">
+        <CardContent className="flex flex-col items-center py-8 gap-4">
           {isLoading ? (
-            <Skeleton className="w-[400px] h-[400px] rounded-xl" />
+            <Skeleton className="w-[300px] h-[300px] rounded-xl" />
           ) : qrCode?.pngBase64 ? (
-            <div className="relative group p-4 bg-white rounded-2xl shadow-sm border">
-              <img 
-                src={qrCode.pngBase64.startsWith("data:") ? qrCode.pngBase64 : `data:image/png;base64,${qrCode.pngBase64}`} 
-                alt="QR Code du Menu" 
-                className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px]"
-                width={400}
-                height={400}
-              />
-            </div>
+            <>
+              <div className="p-4 bg-white rounded-2xl shadow border">
+                <img src={base64Src} alt="QR Code" className="w-[280px] h-[280px]" />
+              </div>
+              <p className="text-sm text-muted-foreground">{qrCode.targetUrl}</p>
+            </>
           ) : (
-            <div className="flex flex-col items-center justify-center w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] border-2 border-dashed rounded-2xl text-muted-foreground bg-muted/10">
-              <QrIcon className="h-24 w-24 opacity-20 mb-4" />
-              <p>Aucun QR code disponible</p>
-            </div>
-          )}
-          
-          {!isLoading && qrCode?.targetUrl && (
-            <div className="mt-8 text-center print:hidden">
-              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">Lien de destination</p>
-              <a 
-                href={qrCode.targetUrl} 
-                target="_blank" 
-                rel="noreferrer"
-                className="text-primary hover:underline font-mono bg-muted px-4 py-2 rounded-md break-all text-sm inline-block max-w-full"
-              >
-                {qrCode.targetUrl}
-              </a>
+            <div className="flex flex-col items-center gap-3 py-8 text-muted-foreground">
+              <QrIcon className="w-16 h-16 opacity-30" />
+              <p>Aucun QR généré — cliquez sur Régénérer</p>
             </div>
           )}
         </CardContent>
-        <CardFooter className="flex flex-col sm:flex-row justify-center gap-4 py-6 bg-muted/30 border-t print:hidden">
-          <Button 
-            variant="outline" 
-            size="lg" 
-            onClick={handleGenerate}
-            disabled={generateQrCode.isPending}
-            className="w-full sm:w-auto"
-          >
-            {generateQrCode.isPending ? (
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-            ) : (
-              <RefreshCw className="mr-2 h-5 w-5" />
-            )}
-            Régénérer le QR
-          </Button>
-          <Button 
-            variant="secondary" 
-            size="lg" 
-            onClick={handleDownload}
-            disabled={!qrCode?.pngBase64 || isLoading}
-            className="w-full sm:w-auto"
-          >
-            <Download className="mr-2 h-5 w-5" />
-            Télécharger PNG
-          </Button>
-          <Button 
-            size="lg" 
-            onClick={handlePrint}
-            disabled={!qrCode?.pngBase64 || isLoading || isPrinting}
-            className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90"
-          >
-            <Printer className="mr-2 h-5 w-5" />
-            Imprimer
-          </Button>
-        </CardFooter>
       </Card>
-      
-      {/* CSS for printing just the QR code */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @media print {
-          body * {
-            visibility: hidden;
-          }
-          .print\\:hidden {
-            display: none !important;
-          }
-          .print\\:py-0 {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-          }
-          main {
-            padding: 0 !important;
-            margin: 0 !important;
-          }
-          .border-2 {
-            border: none !important;
-          }
-          img {
-            visibility: visible;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px !important;
-            height: 500px !important;
-          }
-        }
-      `}} />
+
+      <Card className="border-2">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Printer className="w-5 h-5 text-primary" />
+            Impression multiple par tables
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-4">
+            <div className="flex-1">
+              <label className="text-sm font-medium mb-2 block">Nombre de tables à imprimer</label>
+              <Input
+                type="number"
+                min={1}
+                max={50}
+                value={tableCount}
+                onChange={(e) => setTableCount(parseInt(e.target.value) || 1)}
+                className="text-lg text-center font-bold h-12"
+              />
+            </div>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Chaque QR code sera numéroté : Table #1, Table #2... jusqu'à Table #{tableCount}
+          </p>
+          <Button
+            onClick={handlePrint}
+            disabled={!qrCode?.pngBase64}
+            className="w-full h-12 text-base"
+          >
+            <Printer className="w-5 h-5 mr-2" />
+            Imprimer {tableCount} QR code{tableCount > 1 ? "s" : ""} (3 par ligne)
+          </Button>
+        </CardContent>
+      </Card>
+
+      <div className="flex gap-3">
+        <Button variant="outline" onClick={handleGenerate} className="flex-1">
+          <RefreshCw className="w-4 h-4 mr-2" />
+          Régénérer le QR
+        </Button>
+        <Button variant="outline" onClick={handleDownload} disabled={!qrCode?.pngBase64} className="flex-1">
+          <Download className="w-4 h-4 mr-2" />
+          Télécharger PNG
+        </Button>
+      </div>
     </div>
   );
 }
-
-
-
