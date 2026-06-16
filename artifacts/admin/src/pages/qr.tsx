@@ -43,7 +43,7 @@ export default function QrPage() {
       <div class="qr-item">
         <img src="${base64}" alt="QR Table ${i + 1}" />
         <div class="table-label">Table #${i + 1}</div>
-        <div class="restaurant-name">Le Palais d'Orient</div>
+        <div class="restaurant-name">SOLARIOS</div>
         <div class="scan-text">Scannez pour accéder au menu</div>
       </div>
     `).join("");
@@ -52,7 +52,7 @@ export default function QrPage() {
       <html>
       <head>
         <meta charset="utf-8">
-        <title>QR Codes - Le Palais d'Orient</title>
+        <title>QR Codes - SOLARIOS</title>
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: 'Georgia', serif; background: #fff; }
