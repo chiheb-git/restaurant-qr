@@ -33,7 +33,6 @@ export default function Home() {
         </video>
         <div className="relative z-10 text-center px-6">
 
-          <p className="text-primary tracking-widest uppercase text-sm font-medium">Restaurant</p>
         </div>
       </section>
 
