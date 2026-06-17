@@ -1,4 +1,4 @@
-# ============================================
+﻿# ============================================
 # Script: add-model-from-url.ps1
 # Usage: .\add-model-from-url.ps1 -url "https://..." -nom "burger-viande"
 # ============================================
@@ -22,7 +22,7 @@ Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host "  AJOUT MODELE 3D: $nomClean" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 
-# Etape 1 — Telecharger le GLB depuis l'URL
+# Etape 1 â€” Telecharger le GLB depuis l'URL
 Write-Host ""
 Write-Host "[1/4] Telechargement du fichier GLB..." -ForegroundColor Yellow
 $tempFile = "$downloads\$nomClean-original.glb"
@@ -37,13 +37,13 @@ try {
     exit
 }
 
-# Etape 2 — Compresser
+# Etape 2 â€” Compresser
 Write-Host ""
 Write-Host "[2/4] Compression..." -ForegroundColor Yellow
 $outputFile = "$downloads\$nomClean.glb"
 
 try {
-    gltf-transform optimize $tempFile $outputFile --texture-compress webp 2>&1
+    gltf-transform optimize $tempFile $outputFile --compress draco 2>&1
     
     if (Test-Path $outputFile) {
         $sizeFinal = [math]::Round((Get-Item $outputFile).Length/1MB, 2)
@@ -58,7 +58,7 @@ try {
     Write-Host "      Compression ignoree, fichier original utilise" -ForegroundColor Yellow
 }
 
-# Etape 3 — Copier dans le projet et push GitHub
+# Etape 3 â€” Copier dans le projet et push GitHub
 Write-Host ""
 Write-Host "[3/4] Push sur GitHub..." -ForegroundColor Yellow
 
@@ -71,7 +71,7 @@ git push
 
 Write-Host "      Pousse sur GitHub" -ForegroundColor Green
 
-# Etape 4 — Resultat final
+# Etape 4 â€” Resultat final
 $finalUrl = "$baseUrl/$nomClean.glb"
 
 Write-Host ""
