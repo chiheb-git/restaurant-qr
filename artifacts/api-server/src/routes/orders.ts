@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
           <p style="margin:6px 0"><strong>Nom:</strong> ${lastName}</p>
           <p style="margin:6px 0"><strong>Prénom:</strong> ${firstName}</p>
           <p style="margin:6px 0"><strong>Téléphone:</strong> ${phone}</p>
-          ${guests ? `<p style="margin:6px 0"><strong>Nombre de personnes:</strong> ${guests}</p>` : ""}
+          ${guests ? `<p style="margin:6px 0"><strong>Table de:</strong> ${guests} personne${Number(guests) > 1 ? "s" : ""}</p>` : ""}
           ${description ? `<p style="margin:6px 0"><strong>Description:</strong> ${description}</p>` : ""}
         </div>
 

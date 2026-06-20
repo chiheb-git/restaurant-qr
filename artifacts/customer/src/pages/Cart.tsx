@@ -156,6 +156,18 @@ export default function Cart() {
               </div>
 
               <div>
+                <label className="text-sm font-medium mb-1.5 block">Nombre de personnes</label>
+                <input
+                  value={form.guests}
+                  onChange={(e) => setForm({ ...form, guests: e.target.value })}
+                  type="number"
+                  min="1"
+                  className="w-full px-4 py-3 rounded-xl bg-background border border-border text-sm focus:outline-none focus:border-primary mb-4"
+                  placeholder="Ex: 5 personnes"
+                />
+              </div>
+
+              <div>
                 <label className="text-sm font-medium mb-1.5 block">Téléphone *</label>
                 <input
                   value={form.phone}
