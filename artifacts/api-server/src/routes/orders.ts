@@ -69,7 +69,7 @@ router.post("/", async (req, res) => {
         "api-key": process.env.BREVO_API_KEY || "",
       },
       body: JSON.stringify({
-        sender: { name: "SOLARIOS Restaurant", email: "noreply@solarios-restaurant.com" },
+        sender: { name: "SOLARIOS Restaurant", email: "chihebmeghraoui@gmail.com" },
         to: [{ email: "gahhalsohaib@gmail.com" }],
         subject: `Nouvelle commande - ${firstName} ${lastName}`,
         htmlContent: html,
