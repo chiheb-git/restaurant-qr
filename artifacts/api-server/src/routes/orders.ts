@@ -4,7 +4,7 @@ const router: IRouter = Router();
 
 router.post("/", async (req, res) => {
   try {
-    const { firstName, lastName, phone, description, items } = req.body;
+    const { firstName, lastName, phone, guests, description, items } = req.body;
 
     if (!firstName || !lastName || !phone || !items || items.length === 0) {
       return res.status(400).json({ error: "Champs requis manquants" });
@@ -36,6 +36,7 @@ router.post("/", async (req, res) => {
           <p style="margin:6px 0"><strong>Nom:</strong> ${lastName}</p>
           <p style="margin:6px 0"><strong>Prénom:</strong> ${firstName}</p>
           <p style="margin:6px 0"><strong>Téléphone:</strong> ${phone}</p>
+          ${guests ? `<p style="margin:6px 0"><strong>Nombre de personnes:</strong> ${guests}</p>` : ""}
           ${description ? `<p style="margin:6px 0"><strong>Description:</strong> ${description}</p>` : ""}
         </div>
 

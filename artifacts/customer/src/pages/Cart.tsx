@@ -9,7 +9,7 @@ export default function Cart() {
   const [, navigate] = useLocation();
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [form, setForm] = useState({ firstName: "", lastName: "", phone: "", description: "" });
+  const [form, setForm] = useState({ firstName: "", lastName: "", phone: "", guests: "", description: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const apiUrl = (import.meta as any).env.VITE_API_URL || "https://restaurant-qr-45iy.onrender.com";
