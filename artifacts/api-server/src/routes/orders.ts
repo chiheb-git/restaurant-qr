@@ -1,5 +1,4 @@
 ﻿import { Router, type IRouter } from "express";
-import { Resend } from "resend";
 
 const router: IRouter = Router();
 
@@ -10,8 +9,6 @@ router.post("/", async (req, res) => {
     if (!firstName || !lastName || !phone || !items || items.length === 0) {
       return res.status(400).json({ error: "Champs requis manquants" });
     }
-
-    const resend = new Resend(process.env.RESEND_API_KEY);
 
     const itemsList = items
       .map(
@@ -32,7 +29,7 @@ router.post("/", async (req, res) => {
     const html = `
       <div style="font-family:Georgia,serif;max-width:600px;margin:0 auto;background:#0F0F0F;color:#fff;padding:32px;border-radius:12px">
         <h1 style="color:#C9A84C;font-size:24px;margin-bottom:4px">Nouvelle Commande</h1>
-        <p style="color:#888;margin-bottom:24px">Le Palais d'Orient - SOLARIOS</p>
+        <p style="color:#888;margin-bottom:24px">SOLARIOS Restaurant</p>
 
         <div style="background:#1A1A1A;border-radius:8px;padding:20px;margin-bottom:20px">
           <h3 style="color:#C9A84C;margin-top:0">Informations Client</h3>
@@ -65,12 +62,25 @@ router.post("/", async (req, res) => {
       </div>
     `;
 
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "gahhalsohaib@gmail.com",
-      subject: `Nouvelle commande - ${firstName} ${lastName}`,
-      html,
+    const brevoResponse = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "api-key": process.env.BREVO_API_KEY || "",
+      },
+      body: JSON.stringify({
+        sender: { name: "SOLARIOS Restaurant", email: "noreply@solarios-restaurant.com" },
+        to: [{ email: "gahhalsohaib@gmail.com" }],
+        subject: `Nouvelle commande - ${firstName} ${lastName}`,
+        htmlContent: html,
+      }),
     });
+
+    if (!brevoResponse.ok) {
+      const errText = await brevoResponse.text();
+      console.error("Brevo error:", errText);
+      throw new Error("Brevo send failed");
+    }
 
     res.json({ success: true });
   } catch (error) {
