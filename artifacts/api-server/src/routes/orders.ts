@@ -67,7 +67,7 @@ router.post("/", async (req, res) => {
 
     await resend.emails.send({
       from: "onboarding@resend.dev",
-      to: "chihebmeghraoui@gmail.com",
+      to: "gahhalsohaib@gmail.com",
       subject: `Nouvelle commande - ${firstName} ${lastName}`,
       html,
     });
