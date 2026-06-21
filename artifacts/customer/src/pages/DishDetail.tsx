@@ -4,17 +4,27 @@ import { useGetDish, getGetDishQueryKey } from "@workspace/api-client-react";
 import { formatPrice } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCart } from "@/context/CartContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const API_BASE = import.meta.env.VITE_API_URL || "";
 
 export default function DishDetail() {
   const params = useParams();
   const id = Number(params.id);
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
+  const [showPhotos, setShowPhotos] = useState(true);
 
   const { data: dish, isLoading } = useGetDish(id, {
     query: { enabled: !!id, queryKey: getGetDishQueryKey(id) }
   });
+
+  useEffect(() => {
+    fetch(`${API_BASE}/api/settings`)
+      .then((r) => r.json())
+      .then((data) => setShowPhotos(data.showPhotos))
+      .catch(() => setShowPhotos(true));
+  }, []);
 
   const getFallbackImage = (categoryId?: number | null) => {
     if (!categoryId) return "/placeholder-pizza.png";
@@ -61,6 +71,82 @@ export default function DishDetail() {
     );
   }
 
+  const ActionButtons = () => (
+    <div className="fixed bottom-16 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent pointer-events-none z-40">
+      <div className="max-w-md mx-auto pointer-events-auto space-y-3">
+        <button
+          onClick={handleAddToCart}
+          disabled={added}
+          className="w-full flex items-center justify-center gap-3 py-4 rounded-xl font-bold text-base text-black shadow-lg tap-effect transition-all"
+          style={{ background: added ? "#4ADE80" : "linear-gradient(135deg, #C9A84C, #E2B95A)" }}
+        >
+          {added ? (
+            <>
+              <Check className="w-5 h-5" /> Ajoute au panier
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="w-5 h-5" /> Ajouter au panier
+            </>
+          )}
+        </button>
+
+        {dish.modelGlbUrl ? (
+          <Link
+            href={`/ar/${dish.id}`}
+            className="w-full flex items-center justify-center gap-3 bg-card border border-border text-foreground py-3.5 rounded-xl font-semibold text-sm tap-effect"
+          >
+            <Box className="w-4 h-4" />
+            Voir en 3D / AR
+          </Link>
+        ) : null}
+      </div>
+    </div>
+  );
+
+  // ---------------- Affichage SANS photo, design ultra pro ----------------
+  if (!showPhotos) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background relative pb-40">
+        <div className="px-6 pt-8 pb-10" style={{ borderBottom: "1px solid rgba(201,168,76,0.12)" }}>
+          <button onClick={() => window.history.back()} className="inline-flex items-center justify-center bg-card p-3 rounded-full border border-border tap-effect text-foreground mb-8">
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+
+          <div style={{ width: "40px", height: "2px", background: "linear-gradient(90deg, #C9A84C, transparent)", marginBottom: "20px" }} />
+
+          <h1 className="text-4xl font-serif font-bold text-foreground leading-tight mb-4">
+            {dish.name}
+          </h1>
+
+          <div className="inline-block bg-primary/10 border border-primary/20 text-primary px-5 py-2 rounded-full font-semibold text-xl">
+            {formatPrice(dish.price)}
+          </div>
+        </div>
+
+        <div className="px-6 pt-10 space-y-6">
+          <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-primary/70 mb-3">Description</h3>
+          <p className="text-foreground/90 leading-relaxed text-lg" style={{ fontFamily: "serif" }}>
+            {dish.description || "Une delicieuse specialite preparee avec soin et des ingredients de premiere qualite, selectionnee par notre chef."}
+          </p>
+
+          {dish.modelGlbUrl && (
+            <div className="flex items-center gap-2 pt-2 text-primary text-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              Modele 3D disponible
+            </div>
+          )}
+        </div>
+
+        <ActionButtons />
+      </div>
+    );
+  }
+
+  // ---------------- Affichage AVEC photo (original) ----------------
   return (
     <div className="min-h-screen flex flex-col bg-background relative pb-40">
       <div className="relative w-full h-[350px] bg-card">
@@ -71,9 +157,9 @@ export default function DishDetail() {
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-        <Link href="/" className="absolute top-6 left-4 bg-background/40 backdrop-blur-md p-3 rounded-full border border-white/10 tap-effect text-foreground">
+        <button onClick={() => window.history.back()} className="absolute top-6 left-4 bg-background/40 backdrop-blur-md p-3 rounded-full border border-white/10 tap-effect text-foreground">
           <ArrowLeft className="w-5 h-5" />
-        </Link>
+        </button>
       </div>
 
       <div className="px-6 -mt-12 relative z-10">
@@ -91,42 +177,13 @@ export default function DishDetail() {
           <div>
             <h3 className="text-sm font-semibold tracking-wider uppercase text-muted-foreground mb-3">Description</h3>
             <p className="text-foreground/90 leading-relaxed text-base">
-              {dish.description || "Une dأ©licieuse spأ©cialitأ© prأ©parأ©e avec soin et des ingrأ©dients de premiأ¨re qualitأ©, sأ©lectionnأ©e par notre chef."}
+              {dish.description || "Une delicieuse specialite preparee avec soin et des ingredients de premiere qualite, selectionnee par notre chef."}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="fixed bottom-16 left-0 right-0 p-4 bg-gradient-to-t from-background via-background to-transparent pointer-events-none z-40">
-        <div className="max-w-md mx-auto pointer-events-auto space-y-3">
-          <button
-            onClick={handleAddToCart}
-            disabled={added}
-            className="w-full flex items-center justify-center gap-3 py-4 rounded-xl font-bold text-base text-black shadow-lg tap-effect transition-all"
-            style={{ background: added ? "#4ADE80" : "linear-gradient(135deg, #C9A84C, #E2B95A)" }}
-          >
-            {added ? (
-              <>
-                <Check className="w-5 h-5" /> Ajouté au panier
-              </>
-            ) : (
-              <>
-                <ShoppingCart className="w-5 h-5" /> Ajouter au panier
-              </>
-            )}
-          </button>
-
-          {dish.modelGlbUrl ? (
-            <Link
-              href={`/ar/${dish.id}`}
-              className="w-full flex items-center justify-center gap-3 bg-card border border-border text-foreground py-3.5 rounded-xl font-semibold text-sm tap-effect"
-            >
-              <Box className="w-4 h-4" />
-              Voir en 3D / AR
-            </Link>
-          ) : null}
-        </div>
-      </div>
+      <ActionButtons />
     </div>
   );
 }

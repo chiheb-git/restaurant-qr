@@ -6,6 +6,7 @@ import qrRouter from "./qr";
 import statsRouter from "./stats";
 import uploadRouter from "./upload";
 import ordersRouter from "./orders";
+import settingsRouter from "./settings";
 
 const router: IRouter = Router();
 
@@ -16,5 +17,6 @@ router.use(qrRouter);
 router.use(statsRouter);
 router.use(uploadRouter);
 router.use("/orders", ordersRouter);
+router.use(settingsRouter);
 
 export default router;
