@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, { useState } from "react";
 import { Link, useParams } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import { useGetDish, getGetDishQueryKey } from "@workspace/api-client-react";
@@ -13,17 +13,32 @@ declare global {
         alt?: string;
         ar?: boolean | '';
         'ar-modes'?: string;
+        'ar-placement'?: string;
+        'ar-scale'?: string;
         'camera-controls'?: boolean | '';
+        'touch-action'?: string;
+        'disable-zoom'?: boolean | '' | string;
+        'min-camera-orbit'?: string;
+        'max-camera-orbit'?: string;
+        'min-field-of-view'?: string;
+        'max-field-of-view'?: string;
+        'camera-orbit'?: string;
+        'field-of-view'?: string;
+        'interpolation-decay'?: string;
         'auto-rotate'?: boolean | '';
         'auto-rotate-delay'?: string;
         'rotation-per-second'?: string;
+        'interaction-prompt'?: string;
+        'interaction-prompt-style'?: string;
         'shadow-intensity'?: string;
         'shadow-softness'?: string;
         'environment-image'?: string;
         exposure?: string;
         'tone-mapping'?: string;
+        scale?: string;
         style?: React.CSSProperties;
         slot?: string;
+        onArStatus?: (e: any) => void;
       }, HTMLElement>;
     }
   }
@@ -32,6 +47,7 @@ declare global {
 export default function ARViewer() {
   const params = useParams();
   const id = Number(params.id);
+  const [arStatus, setArStatus] = useState<string>('not-presenting');
 
   const { data: dish, isLoading } = useGetDish(id, {
     query: { enabled: !!id, queryKey: getGetDishQueryKey(id) }
@@ -61,7 +77,6 @@ export default function ARViewer() {
     );
   }
 
-  // compute model src: if model URL is relative or not an absolute http(s), prefix with VITE_MODELS_BASE_URL
   let modelSrc = dish.modelGlbUrl as string;
   try {
     if (!/^https?:\/\//i.test(modelSrc)) {
@@ -92,23 +107,58 @@ export default function ARViewer() {
           alt={`Modأ¨le 3D de ${dish.name}`}
           ar
           ar-modes="webxr scene-viewer quick-look"
+          ar-placement="floor"
+          ar-scale="fixed"
           camera-controls
+          touch-action="pan-y"
+          min-camera-orbit="auto auto 0.3m"
+          max-camera-orbit="auto auto 3m"
+          min-field-of-view="10deg"
+          max-field-of-view="45deg"
+          camera-orbit="0deg 65deg 1.5m"
+          field-of-view="25deg"
+          interpolation-decay="200"
           auto-rotate
-          auto-rotate-delay="0"
-          rotation-per-second="20deg"
-          shadow-intensity="1.5"
-          shadow-softness="1"
+          auto-rotate-delay="3000"
+          rotation-per-second="10deg"
+          interaction-prompt="when-focused"
+          interaction-prompt-style="basic"
+          shadow-intensity="1.8"
+          shadow-softness="0.9"
           environment-image="neutral"
-          exposure="0.85"
+          exposure="1.1"
           tone-mapping="commerce"
-          style={{ width: '100%', height: '100%', backgroundColor: '#1A1A1A' }}
+          scale="1 1 1"
+          onArStatus={(e: any) => setArStatus(e.detail?.status || 'not-presenting')}
+          style={{ width: '100%', height: '100%', backgroundColor: '#0F0F0F' }}
         >
-          <button slot="ar-button" className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-accent text-primary-foreground px-8 py-4 rounded-full font-bold text-lg shadow-xl tap-effect whitespace-nowrap z-50">
+          <button
+            slot="ar-button"
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-accent text-primary-foreground px-8 py-4 rounded-full font-bold text-lg shadow-xl tap-effect whitespace-nowrap z-50"
+          >
             Placer sur ma table
           </button>
+
+          {arStatus === 'session-started' && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '120px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'rgba(0,0,0,0.7)',
+                padding: '10px 20px',
+                borderRadius: '50px',
+                color: '#fff',
+                fontSize: '13px',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Dأ©placez votre tأ©lأ©phone pour dأ©tecter la table
+            </div>
+          )}
         </model-viewer>
       </div>
     </div>
   );
 }
-
