@@ -112,12 +112,12 @@ export default function ARViewer() {
           ar-scale="auto"
           xr-environment
           camera-controls
-          min-camera-orbit="auto auto 0.4m"
-          max-camera-orbit="auto auto 1.8m"
+          min-camera-orbit="auto auto 1m"
+          max-camera-orbit="auto auto 4m"
           min-field-of-view="8deg"
           max-field-of-view="45deg"
-          camera-orbit="0deg 70deg 0.8m"
-          field-of-view="25deg"
+          camera-orbit="0deg 65deg 2.2m"
+          field-of-view="30deg"
           interpolation-decay="300"
           auto-rotate
           auto-rotate-delay="0"
