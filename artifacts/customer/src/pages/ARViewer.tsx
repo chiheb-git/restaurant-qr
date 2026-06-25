@@ -124,11 +124,11 @@ export default function ARViewer() {
           rotation-per-second="15deg"
           interaction-prompt="when-focused"
           interaction-prompt-style="basic"
-          shadow-intensity="2"
-          shadow-softness="1"
-          environment-image="neutral"
-          exposure="1.1"
-          tone-mapping="commerce"
+          shadow-intensity="1.3"
+          shadow-softness="1.2"
+          environment-image="legacy"
+          exposure="0.95"
+          tone-mapping="neutral"
           scale="1 1 1"
           onArStatus={(e: any) => setArStatus(e.detail?.status || 'not-presenting')}
           onArTracking={(e: any) => setArTracking(e.detail?.status || 'tracking')}
