@@ -154,7 +154,7 @@ export default function ARViewer() {
                 whiteSpace: 'nowrap',
               }}
             >
-              Dأ©placez votre tأ©lأ©phone pour dأ©tecter la table
+              Deplacez votre telephone pour detecter la table
             </div>
           )}
         </model-viewer>
