@@ -110,7 +110,6 @@ export default function ARViewer() {
           ar-placement="floor"
           ar-scale="fixed"
           camera-controls
-          touch-action="pan-y"
           min-camera-orbit="auto auto 0.3m"
           max-camera-orbit="auto auto 3m"
           min-field-of-view="10deg"
