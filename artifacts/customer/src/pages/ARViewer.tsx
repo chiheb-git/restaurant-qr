@@ -110,7 +110,6 @@ export default function ARViewer() {
           ar-modes="webxr scene-viewer quick-look"
           ar-placement="floor"
           ar-scale="auto"
-          xr-environment
           camera-controls
           min-camera-orbit="auto auto 1m"
           max-camera-orbit="auto auto 4m"
