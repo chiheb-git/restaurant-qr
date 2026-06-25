@@ -16,8 +16,6 @@ declare global {
         'ar-placement'?: string;
         'ar-scale'?: string;
         'camera-controls'?: boolean | '';
-        'touch-action'?: string;
-        'disable-zoom'?: boolean | '' | string;
         'min-camera-orbit'?: string;
         'max-camera-orbit'?: string;
         'min-field-of-view'?: string;
@@ -36,9 +34,11 @@ declare global {
         exposure?: string;
         'tone-mapping'?: string;
         scale?: string;
+        'xr-environment'?: boolean | '';
         style?: React.CSSProperties;
         slot?: string;
         onArStatus?: (e: any) => void;
+        onArTracking?: (e: any) => void;
       }, HTMLElement>;
     }
   }
@@ -48,6 +48,7 @@ export default function ARViewer() {
   const params = useParams();
   const id = Number(params.id);
   const [arStatus, setArStatus] = useState<string>('not-presenting');
+  const [arTracking, setArTracking] = useState<string>('tracking');
 
   const { data: dish, isLoading } = useGetDish(id, {
     query: { enabled: !!id, queryKey: getGetDishQueryKey(id) }
@@ -68,7 +69,7 @@ export default function ARViewer() {
         <div className="w-20 h-20 bg-card rounded-full flex items-center justify-center mb-6">
           <span className="text-2xl">ًںچ½ï¸ڈ</span>
         </div>
-        <h2 className="text-2xl font-serif text-foreground mb-3">Modأ¨le indisponible</h2>
+        <h2 className="text-2xl font-serif text-foreground mb-3">Modele indisponible</h2>
         <p className="text-muted-foreground mb-8">Ce plat n'a pas encore de vue 3D.</p>
         <Link href={dish ? `/dish/${dish.id}` : "/"} className="bg-card text-foreground px-6 py-3 rounded-full border border-border tap-effect">
           Retour
@@ -104,31 +105,33 @@ export default function ARViewer() {
         <model-viewer
           src={modelSrc}
           ios-src=""
-          alt={`Modأ¨le 3D de ${dish.name}`}
+          alt={`Modele 3D de ${dish.name}`}
           ar
           ar-modes="webxr scene-viewer quick-look"
           ar-placement="floor"
-          ar-scale="fixed"
+          ar-scale="auto"
+          xr-environment
           camera-controls
-          min-camera-orbit="auto auto 0.5m"
-          max-camera-orbit="auto auto 1.5m"
-          min-field-of-view="10deg"
+          min-camera-orbit="auto auto 0.4m"
+          max-camera-orbit="auto auto 1.8m"
+          min-field-of-view="8deg"
           max-field-of-view="45deg"
           camera-orbit="0deg 70deg 0.8m"
           field-of-view="25deg"
-          interpolation-decay="200"
+          interpolation-decay="300"
           auto-rotate
           auto-rotate-delay="0"
-          rotation-per-second="18deg"
+          rotation-per-second="15deg"
           interaction-prompt="when-focused"
           interaction-prompt-style="basic"
-          shadow-intensity="1.8"
-          shadow-softness="0.9"
+          shadow-intensity="2"
+          shadow-softness="1"
           environment-image="neutral"
           exposure="1.1"
           tone-mapping="commerce"
           scale="1 1 1"
           onArStatus={(e: any) => setArStatus(e.detail?.status || 'not-presenting')}
+          onArTracking={(e: any) => setArTracking(e.detail?.status || 'tracking')}
           style={{ width: '100%', height: '100%', backgroundColor: '#0F0F0F' }}
         >
           <button
@@ -138,7 +141,7 @@ export default function ARViewer() {
             Placer sur ma table
           </button>
 
-          {arStatus === 'session-started' && (
+          {arStatus === 'session-started' && arTracking !== 'tracking' && (
             <div
               style={{
                 position: 'absolute',
@@ -154,6 +157,25 @@ export default function ARViewer() {
               }}
             >
               Deplacez votre telephone pour detecter la table
+            </div>
+          )}
+
+          {arStatus === 'session-started' && arTracking === 'tracking' && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '120px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'rgba(0,0,0,0.6)',
+                padding: '8px 18px',
+                borderRadius: '50px',
+                color: '#C9A84C',
+                fontSize: '12px',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Pincez pour zoomer آ· Faites le tour pour voir tous les angles
             </div>
           )}
         </model-viewer>
